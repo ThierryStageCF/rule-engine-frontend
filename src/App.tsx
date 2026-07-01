@@ -1,11 +1,15 @@
 import type {JSX} from "react";
+import {BrowserRouter} from "react-router-dom";
+import {AppRouter} from "./router/AppRouter.tsx";
 
 function App(): JSX.Element {
 
   return (
-      <>
-        Rule Engine Frontend
-      </>
+      <BrowserRouter>
+          <div className="min-h-screen overflow-y-auto overflow-x-hidden">
+              <AppRouter/>
+          </div>
+      </BrowserRouter>
   )
 }
 
