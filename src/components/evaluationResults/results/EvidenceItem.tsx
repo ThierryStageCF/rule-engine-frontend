@@ -1,9 +1,9 @@
-import { useId, useState } from "react"
+import {type JSX, useId, useState} from "react"
 
-import type { Evidence } from "../../lib/types/models/EvaluationResult";
-import {detailRows} from "../../lib/utils/functions.ts";
-import DisclosureButton from "../../ui/DisclosureButton.tsx";
-import Card from "../../ui/Card.tsx";
+import type { Evidence } from "../../../lib/types/models/EvaluationResult";
+import {detailRows} from "../../../lib/utils/functions.ts";
+import DisclosureButton from "../../../ui/DisclosureButton.tsx";
+import Card from "../../../ui/Card.tsx";
 
 
 export interface EvidenceItemProps {
@@ -15,7 +15,7 @@ export interface EvidenceItemProps {
  * @param evidence
  * @param tone
  */
-export function EvidenceItem({evidence}: EvidenceItemProps) {
+export function EvidenceItem({evidence}: EvidenceItemProps): JSX.Element {
     const [open, setOpen] = useState<boolean>(false)
     const detailId = useId()
     const rows = detailRows(evidence)

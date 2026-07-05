@@ -3,20 +3,20 @@ import {type Location, useLocation} from "react-router-dom"
 import { type EvaluationResult, type ZoneKey } from "../lib/types/models/EvaluationResult";
 import { EvaluateModal } from "../components/landingPage/ArticleEvaluationModal"
 import {
-    SideFilters
-} from "../components/evaluationResults/FilterBar.tsx";
-import {
     type FilterCounts,
     type Filters,
 } from "../lib/types/presentation/evaluationPresentation.ts";
-import {ResultsHeader} from "../components/evaluationResults/ResultHeader.tsx";
-import {SummaryBanner} from "../components/evaluationResults/SummaryBanner.tsx";
 import {DEFAULT_FILTERS, VERDICT_SECTION_ORDER} from "../lib/utils/constands.ts";
 import {buildLevelGroups} from "../lib/utils/functions.ts";
 import {Header} from "../components/landingPage/Header.tsx";
 import {Filter} from "lucide-react";
-import {VerdictFilterTab} from "../components/evaluationResults/VerdictFilterTab.tsx";
-import ArticleEvaluationResultSection from "../components/evaluationResults/ResultSection.tsx";
+import {SummaryBanner} from "../components/evaluationResults/headers/SummaryBanner.tsx";
+import {VerdictFilterTab} from "../components/evaluationResults/filters/VerdictFilterTab.tsx";
+import {ZoneCriticalityFilters} from "../components/evaluationResults/filters/ZoneCriticalityFilters.tsx";
+import ResultByVerdict from "../components/evaluationResults/results/ResultByVerdict.tsx";
+import {ResultsHeader} from "../components/evaluationResults/headers/ResultHeader.tsx";
+import {Footer} from "../components/landingPage/Footer.tsx";
+
 
 
 
@@ -26,7 +26,6 @@ export default function ArticleEvaluationResult() {
     const evaluation: EvaluationResult = location.state?.evaluation
 
     const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS)
-    const [reevaluating, setReevaluating] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
 
     const allRules = useMemo(
@@ -83,9 +82,7 @@ export default function ArticleEvaluationResult() {
 
 
     const handleReevaluate = () => {
-        setReevaluating(true)
-        console.log("[v0] Réévaluation de l'article:", evaluation?.code)
-        window.setTimeout(() => setReevaluating(false), 1400)
+        console.log("[v0] Réévaluation de l'article:", evaluation?.codeArticle)
     }
 
 
@@ -111,7 +108,7 @@ export default function ArticleEvaluationResult() {
     return (
         <div className="min-h-screen bg-background">
             <Header/>
-            <div className="mx-auto flex max-w-370 items-start gap-6 px-4 pb-24 pt-6 lg:px-8">
+            <div className="mx-auto flex max-w-343.75 gap-10 px-4 pb-24 pt-4 lg:px-8">
 
                 {/* Filtres dans sidebar à gauche  */}
                 <aside className="sticky top-28 hidden w-64 shrink-0 self-start lg:block">
@@ -119,18 +116,21 @@ export default function ArticleEvaluationResult() {
                         <Filter className="w-6 h-6 mt-1 "/>
                         <p className="text-xl ">Filtres</p>
                     </span>
-                    <SideFilters filters={filters} onChange={setFilters} counts={counts} />
+                    <ZoneCriticalityFilters
+                        filters={filters}
+                        onFilterChange={setFilters}
+                        countPerFilter={counts}
+                    />
                 </aside>
 
                 {/* Zone d'affichage du rapport */}
-                <main className="min-w-0 flex-1 max-w-5xl">
+                <main className="min-w-0 flex-1">
                     {/*  Titre et boutons de reévaluation de l'article et évaluation pour un autre article */}
                     <ResultsHeader
-                        code={evaluation.code}
-                        designation={evaluation.designation}
-                        reevaluating={reevaluating}
+                        codeArticle={evaluation.codeArticle}
+                        designationArticle={evaluation.designation}
                         onReevaluate={handleReevaluate}
-                        onNewArticle={() => setModalOpen(true)}
+                        onEvaluateArticle={() => setModalOpen(true)}
                     />
                     {/* statistiques d'évaluation */}
                     <SummaryBanner
@@ -149,16 +149,16 @@ export default function ArticleEvaluationResult() {
                     </div>
                     {/* Affichage mobile */}
                     <div className="mt-4 lg:hidden">
-                        <SideFilters
+                        <ZoneCriticalityFilters
                             filters={filters}
-                            onChange={setFilters}
-                            counts={counts}
+                            onFilterChange={setFilters}
+                            countPerFilter={counts}
                         />
                     </div>
                     {/* Affichage du rapport par verdicts */}
                     <div className="mt-8 grid gap-14">
                         {resultByVerdict.map(({ verdict, resultsByLevel }) => (
-                            <ArticleEvaluationResultSection
+                            <ResultByVerdict
                                 key={verdict}
                                 verdict={verdict}
                                 resultsByLevel={resultsByLevel}
@@ -168,6 +168,7 @@ export default function ArticleEvaluationResult() {
                 </main>
             </div>
             <EvaluateModal open={modalOpen} onClose={() => setModalOpen(false)} />
+            <Footer/>
         </div>
     )
 }

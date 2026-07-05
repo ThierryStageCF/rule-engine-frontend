@@ -16,8 +16,6 @@ type BadgeSize = "sm" | "md" | "lg";
 
 type BadgeRounded = "sm" | "md" | "lg" | "xl" | "2xl" | "full";
 
-const BASE =
-    "inline-flex items-center gap-1.5 font-medium";
 
 const VARIANTS: Record<BadgeVariant, string> = {
     primary:
@@ -44,8 +42,8 @@ const VARIANTS: Record<BadgeVariant, string> = {
 
 const SIZES: Record<BadgeSize, string> = {
     sm: "px-2 py-0.5 text-[11px]",
-    md: "px-2.5 py-1 text-xs",
-    lg: "px-3 py-1.5 text-sm",
+    md: "px-2.5 py-1 text-sm",
+    lg: "px-3 py-1.5 text-md",
 };
 
 const ICON_SIZES: Record<BadgeSize, string> = {
@@ -67,6 +65,10 @@ const ROUNDED: Record<BadgeRounded, string> = {
     "2xl": "rounded-2xl",
     full: "rounded-full",
 };
+
+
+const BASE =
+    "flex items-center gap-1.5 font-medium";
 
 export interface BadgeProps {
     children: ReactNode;
@@ -103,7 +105,7 @@ export default function Badge(
                 ${VARIANTS[variant]}
                 ${SIZES[size]}
                 ${roundedClass}
-                ${uppercase ? "uppercase tracking-wide font-semibold" : ""}
+                ${uppercase ? "uppercase tracking-wide font-medium" : ""}
                 ${className}
             `}
         >

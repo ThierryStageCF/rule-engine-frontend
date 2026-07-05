@@ -26,65 +26,64 @@ export type ZoneKey =
     | "article"
     | "apport";
 
+
+/** Objet représentant le résultat d'évaluation d'une règle. */
+export interface EvaluationResult {
+    codeArticle: string;
+    articles: EvaluatedArticle[];
+}
+
+/** Un article (produit fini ou composant) avec ses règles évaluées. */
+export interface EvaluatedArticle {
+    codeArticle: string;
+    designationArticle: string;
+    level: number;
+    rules: RuleResult[];
+}
+
+/**
+ * Résultat d'évaluation d'une règle sur un article.
+ */
+export interface RuleResult {
+    rule_id: string;
+    rule_label: string;
+    verdict: Verdict;
+    criticality: Criticality;
+    semi_formel: string;
+    /** Texte source original de la règle. */
+    libelle?: string;
+    zone: ZoneKey;
+    /** Type de construction (comparaison, existence, for_all, négation…). */
+    construction: string;
+    exempted: boolean;
+    exemption_uncertain: boolean;
+    /** Raison d'une exemption en langage humain*/
+    exemption_reason?: string;
+    /** Raison d'une exemption incertaine */
+    uncertainty_reason?: string;
+    evidence: Evidence[];
+}
+
+
+
 /**
  * Une preuve unitaire justifiant le verdict d'une règle. Une même règle peut
- * échouer à plusieurs endroits (boucle sur une collection), d'où une liste.
- * `subject` est le seul champ toujours présent : il distingue les evidences
- * entre elles. Les autres champs ne sont rendus que lorsqu'ils sont fournis.
+ * échouer à plusieurs endroits (boucle sur une collection).
  */
 export interface Evidence {
-    /** Élément précis concerné — toujours affiché en premier. */
+    /** Élément précis concerné */
     subject: string;
-    /** Champ / critère contrôlé, quand applicable. */
+    /** Champ / critère contrôlé. */
     field?: string;
-    /** Valeur ou condition attendue, quand applicable. */
+    /** Valeur ou condition attendue. */
     expected?: string;
-    /** Valeur observée, quand applicable. */
+    /** Valeur observée. */
     actual?: string;
     verdict: Verdict;
     /** Phrase en langage clair (enrichie par le LLM) — niveau de lecture principal. */
     phrase: string;
 }
 
-/**
- * Résultat d'évaluation d'une règle sur un article. Correspond au `RuleResult`
- * du moteur, enrichi par le LLM (`rule_label`, `phrase` des evidences).
- */
-export interface RuleResult {
-    rule_id: string;
-    /** Explication en langage clair de ce que vérifie la règle (enrichie LLM). */
-    rule_label: string;
-    verdict: Verdict;
-    criticality: Criticality;
-    /** Expression semi-formelle de la règle. */
-    semi_formel: string;
-    /** Texte source original (énoncé humain) de la règle. */
-    libelle?: string;
-    zone: ZoneKey;
-    /** Type de construction (comparaison, existence, for_all, négation…). */
-    construction: string;
-    /** Vrai quand l'article est dispensé de cette règle par une clause d'exception. */
-    exempted: boolean;
-    /** Vrai quand le moteur n'a pas pu confirmer l'exception et a évalué par précaution. */
-    exemption_uncertain: boolean;
-    exemption_reason?: string;
-    uncertainty_reason?: string;
-    evidence: Evidence[];
-}
 
-/** Un article (produit fini ou composant) avec ses règles évaluées. */
-export interface EvaluatedArticle {
-    code: string;
-    designation: string;
-    /** 0 = produit fini, puis descente dans la nomenclature. */
-    level: number;
-    rules: RuleResult[];
-}
 
-/** Réponse complète renvoyée par la route d'évaluation du backend. */
-export interface EvaluationResult {
-    code: string;
-    designation: string;
-    evaluatedAt: string;
-    articles: EvaluatedArticle[];
-}
+

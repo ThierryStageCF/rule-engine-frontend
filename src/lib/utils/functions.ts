@@ -40,8 +40,8 @@ export function buildLevelGroups(evaluation: EvaluationResult, verdict: Verdict,
         )
 
         articleGroups.push({
-            code: article.code,
-            designation: article.designation,
+            code: article.codeArticle,
+            designation: article.designationArticle,
             level: article.level,
             resultByZone: zones,
         })

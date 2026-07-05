@@ -7,13 +7,13 @@ import type { EvaluationResult } from "../types/models/EvaluationResult";
 
 export const sampleEvaluation: EvaluationResult = {
 
-    code: "4501278",
+    codeArticle: "4501278",
     designation: "Platine principale — laiton nickelé",
     evaluatedAt: "2 juillet 2026 à 10:42",
     articles: [
         {
-            code: "4501278",
-            designation: "Platine principale — laiton nickelé",
+            codeArticle: "4501278",
+            designationArticle: "Platine principale — laiton nickelé",
             level: 0,
             rules: [
                 {
@@ -215,8 +215,8 @@ export const sampleEvaluation: EvaluationResult = {
             ],
         },
         {
-            code: "4501320",
-            designation: "Vis de fixation M1.4 — acier inoxydable",
+            codeArticle: "4501320",
+            designationArticle: "Vis de fixation M1.4 — acier inoxydable",
             level: 1,
             rules: [
                 {

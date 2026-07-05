@@ -2,7 +2,9 @@ import {useId, useState} from "react";
 import type {RuleResult} from "../../../lib/types/models/EvaluationResult.ts";
 import {AlertTriangle, Ban, Info} from "lucide-react";
 import DisclosureButton from "../../../ui/DisclosureButton.tsx";
-import {EvidenceItem} from "../EvidenceItem.tsx";
+import {EvidenceItem} from "../results/EvidenceItem.tsx";
+import Badge from "../../../ui/Badge.tsx";
+
 
 export default function RuleResultCard({ rule }: { rule: RuleResult }) {
     const hasEvidence = rule.evidence.length > 0
@@ -53,7 +55,7 @@ export default function RuleResultCard({ rule }: { rule: RuleResult }) {
             )}
 
             <div>
-                {/* Exemptions */}
+                {/* Titre Exemptions Incertaine */}
                 {(rule.exemption_uncertain && rule?.uncertainty_reason)  &&
                     (
                         <div className="mt-4 mb-2">
@@ -65,6 +67,7 @@ export default function RuleResultCard({ rule }: { rule: RuleResult }) {
                         </div>
                     )
                 }
+                {/* Titre Exemptions */}
                 {(rule.exempted && rule?.exemption_reason) &&
                     (
                         <div className="mt-4 mb-2">
@@ -77,21 +80,29 @@ export default function RuleResultCard({ rule }: { rule: RuleResult }) {
                 }
                 {/* Règle exemptée - Explication de l'exemption */}
                 {rule.exempted && rule?.exemption_reason && (
-                    <div className="mt-4 flex flex-col gap-2.5 rounded-xl bg-accent px-4 py-3 ml-6">
-                        <p className="ml-6 text-sm leading-relaxed text-accent-foreground text-pretty">
-                            {rule?.exemption_reason}
-                        </p>
+                    <div className="mt-4 ml-6">
+                        <Badge
+                            variant="accent"
+                            size="md"
+                        >
+                            <span className="min-h-10 items-center justify-center flex">
+                                {rule?.exemption_reason}
+                            </span>
+                        </Badge>
                     </div>
                 )}
 
                 {/* Règle dont l'exemption est certaine, et on a appliqué la règle par précaution */}
                 {rule.exemption_uncertain && rule?.uncertainty_reason && (
-                    <div className="mt-4 flex items-start gap-2.5 rounded-xl border border-warning/25 bg-warning/5 px-4 py-3 ml-6">
-                        <div className="min-w-0">
-                            <p className="mt-1.5 text-sm leading-relaxed text-foreground/90 text-pretty">
+                    <div className="mt-4 ml-6">
+                        <Badge
+                            variant="warning"
+                            size="md"
+                        >
+                            <span className="min-h-10 items-center justify-center flex">
                                 {rule?.uncertainty_reason}
-                            </p>
-                        </div>
+                            </span>
+                        </Badge>
                     </div>
                 )}
             </div>

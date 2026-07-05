@@ -6,7 +6,7 @@ import logo from "../../assets/cf-logo.png";
 export function Header(): JSX.Element {
 
     return (
-        <header className="mt-4 w-full sticky top-0 right-0 left-0 z-100   bg-background/85 backdrop-blur-sm">
+        <header className="mt-4 w-full sticky top-0 right-0 left-0 z-100  bg-background/70 backdrop-blur-sm">
             <nav className="flex py-4 h-16 max-w-7xl mx-auto  items-center justify-between px-5 sm:px-8">
                 <div className="flex items-center justify-center">
                     <Link to="/">

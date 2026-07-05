@@ -1,6 +1,6 @@
-import type {FilterCounts, Filters, VerdictFilter} from "../../lib/types/presentation/evaluationPresentation.ts";
-import Card from "../../ui/Card.tsx";
-import ListItem from "../../ui/ListItem.tsx";
+import type {FilterCounts, Filters, VerdictFilter} from "../../../lib/types/presentation/evaluationPresentation.ts";
+import Card from "../../../ui/Card.tsx";
+import ListItem from "../../../ui/ListItem.tsx";
 
 
 export type VerdictFilterTabProps = {
