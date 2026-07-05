@@ -3,6 +3,7 @@ import {Sparkles} from "lucide-react";
 import hero_image from "../../assets/hero_panel.png";
 import {EvaluateModal} from "./ArticleEvaluationModal.tsx";
 import {useModal} from "../../lib/hooks/useModal.ts";
+import Button from "../../ui/Button.tsx";
 
 
 export function Hero(): JSX.Element{
@@ -23,16 +24,22 @@ export function Hero(): JSX.Element{
                     contre les <em className="italic text-blue-900">règles métier</em>.
                 </h1>
 
-                <p className="mt-5 text-md font-medium sm:text-lg text-muted-foreground  leading-relaxed">
+                <p className="mt-5 mb-5 text-md font-medium sm:text-lg text-muted-foreground  leading-relaxed">
                     Le moteur de règles métier de Cheval Frères contrôle la conformité de vos articles industriels selon vos référentiels.
                     Un point d'entrée clair, pensé pour les équipes métier !
                 </p>
 
-                <button
+                <Button
+                    type="button"
+                    variant="primary"
+                    style="solid"
+                    label="Evaluer un article"
+                    size="xl"
+                    rounded="xl"
                     onClick={()=> modalManagement.setOpen(true)}
-                    className="mt-5 bg-primary text-white py-4 px-8 flex items-center justify-center rounded-2xl cursor-pointer" >
-                    <span className="font-semibold text-md">Evaluer un article</span>
-                </button>
+                />
+
+
             </div>
 
             <img src={hero_image} alt="" className="w-full h-auto max-h-[70vh] object-contain animate-float" />

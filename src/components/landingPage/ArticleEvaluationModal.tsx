@@ -1,8 +1,9 @@
 import { ScanSearch } from "lucide-react"
 import InputField from "../../ui/InputField.tsx";
 import BaseModal from "../modals/BaseModal.tsx";
-import {useArticleEvaluation} from "../../lib/hooks/useArticleEvaluation.ts";
 import Button from "../../ui/Button.tsx";
+import {useArticleEvaluationModal} from "../../lib/hooks/useArticleEvaluationModal.ts";
+
 
 type EvaluateModalProps = {
     open: boolean
@@ -10,7 +11,7 @@ type EvaluateModalProps = {
 }
 
 export function EvaluateModal({ open, onClose }: EvaluateModalProps) {
-    const {zodParams, isLoading, axiosErrors} = useArticleEvaluation();
+    const {zodParams, isLoading, axiosErrors} = useArticleEvaluationModal();
     return (
         <BaseModal
             open={open}
@@ -31,20 +32,22 @@ export function EvaluateModal({ open, onClose }: EvaluateModalProps) {
                 <div className="mt-6 flex items-center justify-end gap-3">
                     <Button
                         type="button"
-                        color="transparent"
-                        textColor="muted-foreground"
-                        colorHover="muted"
-                        textHoverColor="foreground"
                         label="Annuler"
-                        onclick={()=> {
+                        variant="ghost"
+                        style="solid"
+                        rounded="xl"
+                        onClick={()=> {
                             zodParams.reset();
                             onClose();
                         }}
                     />
                     <Button
                         type="submit"
-                        disabled={isLoading}
                         label="Evaluer"
+                        variant="primary"
+                        style="solid"
+                        rounded="xl"
+                        disabled={isLoading}
                     />
                 </div>
             </form>

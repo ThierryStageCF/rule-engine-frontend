@@ -6,15 +6,20 @@ import logo from "../../assets/cf-logo.png";
 export function Header(): JSX.Element {
 
     return (
-        <header className="w-full">
-            <nav className="flex h-24 max-w-7xl mx-auto  items-center justify-between px-5 sm:px-8">
-                <Link to="/">
-                    <img
-                        src={logo}
-                        alt={"Logo Cheval Frères"}
-                        className="h-36 w-60"
-                    />
-                </Link>
+        <header className="mt-4 w-full sticky top-0 right-0 left-0 z-100   bg-background/85 backdrop-blur-sm">
+            <nav className="flex py-4 h-16 max-w-7xl mx-auto  items-center justify-between px-5 sm:px-8">
+                <div className="flex items-center justify-center">
+                    <Link to="/">
+                        <img
+                            src={logo}
+                            alt={"Logo Cheval Frères"}
+                            className="h-28 w-44"
+                        />
+                    </Link>
+                    {/*<span className="text-xl font-bold text-primary">
+                        Rule Engine
+                    </span>*/}
+                </div>
                 <div className="flex items-center gap-1 sm:gap-2">
                     <NavLinkItem href="/rules" icon={<ListCheck/>}>
                         Règles métier
@@ -22,7 +27,6 @@ export function Header(): JSX.Element {
                     <NavLinkItem href="/documentation" icon={<BookOpen/>}>
                         Documentation
                     </NavLinkItem>
-
                 </div>
             </nav>
         </header>

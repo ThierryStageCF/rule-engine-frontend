@@ -10,19 +10,31 @@
     /* Couleurs principales et secondaires */
     --color-base-color: var(--base-color);
     --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
     --color-primary-background: var(--primary-background);
     --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
 
 
-    /* Couleurs d'état */
+    /* Couleurs d'état (verdicts) */
     --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
     --color-error: var(--error);
+    --color-danger: var(--danger);
+    --color-danger-foreground: var(--danger-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
 
     /* Couleurs d'éléments particuliers d'UI */
     --color-ring: var(--ring);
     --color-input: var(--input);
     --color-border: var(--border);
     --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    /* Surface des cartes (fond opaque au-dessus de la page) */
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
 
 
     /* Fond neutre discret (survols, zones secondaires) */
@@ -30,6 +42,7 @@
 
     /* Couleur d'accent de marque (icônes, éléments mis en avant) */
     --color-icon-accent: var(--icon-accent);
+    --color-brand-accent: var(--brand-accent);
     --color-muted-foreground: var(--muted-foreground);
 
 
@@ -48,21 +61,35 @@
 
     /* Bleu cheval frère */
     --primary: #100f38;
+    --primary-foreground: #ffffff;
     --primary-background: #ffffff;
     --secondary: #eaecf7;
+    --secondary-foreground: #100f38;
 
+    /* Surface des cartes */
+    --card: #ffffff;
+    --card-foreground: #17173a;
+
+    /* États / verdicts */
     --success: #16a06a;
+    --success-foreground: #ffffff;
     --error: #e5484d;
+    --danger: #e5484d;
+    --danger-foreground: #ffffff;
+    --warning: #9a6a10;
+    --warning-foreground: #ffffff;
 
 
     --border: #e2e4f0;
     --input: #e2e4f0;
     --ring: #4361ff;
     --accent: #e7ebff;
+    --accent-foreground: #100f38;
 
 
     /* Accent de marque (dérivé du bleu ring, pour icônes et pastilles) */
     --icon-accent: #4361ff;
+    --brand-accent: #4361ff;
     --muted-foreground: #5c5e7e;
 
     /* Fond neutre discret pour les survols */

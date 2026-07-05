@@ -1,4 +1,7 @@
 export const AppRouterPaths = {
-    landingPage: "/"
-
+    notFoundPage: "*",
+    landingPage: "/",
+    documentationPage: "/documentation",
+    rulePage: "/rules",
+    ruleEvaluationResultPage: "/rule-evaluation-result/:id",
 };

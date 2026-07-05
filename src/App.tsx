@@ -6,7 +6,7 @@ function App(): JSX.Element {
 
   return (
       <BrowserRouter>
-          <div className="min-h-screen overflow-y-auto overflow-x-hidden">
+          <div className="min-h-screen">
               <AppRouter/>
           </div>
       </BrowserRouter>
