@@ -2,7 +2,7 @@ import type { JSX } from "react";
 import { Controller } from "react-hook-form";
 import { Filter } from "lucide-react";
 import type { RuleServerFiltersFormType } from "../../../lib/types/schema/ruleServerFiltersSchema.ts";
-import { CRITICALITY_OPTIONS, ZONE_LABELS, ZONE_ORDER } from "../../../lib/utils/constands.ts";
+import {PURE_CRITICALITY_OPTIONS, ZONE_LABELS, ZONE_ORDER} from "../../../lib/utils/constands.ts";
 import { useRuleFilterForm } from "../../../lib/hooks/rules/useRuleFilterForm.ts";
 import BaseModal from "../../../layouts/BaseModal.tsx";
 import InputField from "../../../ui/InputField.tsx";
@@ -77,7 +77,7 @@ export function RuleServerFilterMenu(
                             name="criticalities"
                             render={({ field }) => (
                                 <div className="flex flex-col gap-1">
-                                    {CRITICALITY_OPTIONS.filter((option) => option.value !== "all").map((option) => (
+                                    {PURE_CRITICALITY_OPTIONS.map((option) => (
                                         <ListItem
                                             key={option.value}
                                             variant="check"

@@ -25,7 +25,7 @@ function RulePage(): JSX.Element {
 
     const openRule = (ruleId: string) => navigate(`/rule/details/${ruleId}`);
     const editRule = (ruleId: string) => navigate(`/rule/edit/${ruleId}`);
-    const toggleActive = (rule: Rule) => actions.setLocalFilters((current) => current) || rule; // placeholder branché plus tard
+    const toggleActive = (rule: Rule) =>  {console.log(rule)}; // placeholder branché plus tard
 
     return (
         <>

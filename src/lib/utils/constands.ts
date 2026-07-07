@@ -96,6 +96,12 @@ export const CRITICALITY_OPTIONS: { value: CriticalityFilter; label: string }[] 
     { value: "normal", label: "Normales" },
 ]
 
+export const PURE_CRITICALITY_OPTIONS: { value:Criticality; label: string }[] = [
+    { value: "critique", label: "Critiques" },
+    { value: "normal", label: "Normales" },
+]
+
+
 export const VERDICT_BADGES: Record<Verdict,  Omit<BadgeProps, "children">> = {
     PASS: {
         variant: "success",
