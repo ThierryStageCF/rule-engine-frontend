@@ -1,5 +1,5 @@
 import {Ban, type LucideIcon} from "lucide-react"
-import { type ZoneKey } from "../../../lib/types/models/EvaluationResult";
+import { type DomainZone } from "../../../lib/types/models/evaluationResult.model.ts";
 import {
     CRITICALITY_OPTIONS,
     ZONE_ICONS,
@@ -8,8 +8,8 @@ import {
 } from "../../../lib/utils/constands.ts";
 import type {
     FilterCounts,
-    Filters,
-} from "../../../lib/types/presentation/evaluationPresentation.ts";
+    EvaluationResultFilters,
+} from "../../../lib/types/presentation/evaluation.model.presentation.ts";
 import Card from "../../../ui/Card.tsx";
 import ListItem from "../../../ui/ListItem.tsx";
 import type {JSX} from "react";
@@ -17,14 +17,14 @@ import type {JSX} from "react";
 
 
 export type SideFiltersProps = {
-    filters: Filters
-    onFilterChange: (next: Filters) => void
+    filters: EvaluationResultFilters
+    onFilterChange: (next: EvaluationResultFilters) => void
     countPerFilter: FilterCounts
 }
 
 /**
  * @summary Composant fonctionnel qui affiche les filtres sur les résultats de l'évaluation selon la zone métier et la criticité des règles.
- * @param filters : Filters  objet de filtres disponible (par verdict, zone, etc.)
+ * @param filters : EvaluationResultFilters  objet de filtres disponible (par verdict, zone, etc.)
  * @param onFilterChange Fonction permettant de mettre à jour un filtre
  * @param countPerFilter Nombre d'éléments pour chaque filtre.
  */
@@ -36,14 +36,12 @@ export function ZoneCriticalityFilters(
     }: SideFiltersProps): JSX.Element{
 
 
-    const toggleZone = (zone: ZoneKey) => {
-        const has = filters.zones.includes(zone)
+    const toggleZone = (zone: DomainZone) => {
+        const has = filters.zones.includes(zone);
         onFilterChange({
             ...filters,
-            zones: has
-                ? filters.zones.filter((z) => z !== zone)
-                : [...filters.zones, zone],
-        })
+            zones: has ? filters.zones.filter((z) => z !== zone) : [...filters.zones, zone],
+        });
     }
 
     return (
@@ -78,16 +76,16 @@ export function ZoneCriticalityFilters(
                 title="Criticité"
             >
                 <div className="flex flex-col gap-0.5">
-                    {CRITICALITY_OPTIONS.map((opt) => {
-                        const active = filters.criticality === opt.value
+                    {CRITICALITY_OPTIONS.map((criticalityOption) => {
+                        const active = filters.criticality === criticalityOption.value
                         return (
                             <ListItem
-                                key={opt.value}
+                                key={criticalityOption.value}
                                 variant="simple"
-                                label={opt.label}
+                                label={criticalityOption.label}
                                 active={active}
                                 onClick={() =>
-                                    onFilterChange({ ...filters, criticality: opt.value })
+                                    onFilterChange({ ...filters, criticality: criticalityOption.value })
                                 }
                             />
                         )

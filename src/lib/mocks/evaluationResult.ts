@@ -3,9 +3,9 @@
  * avant que la route backend + le LLM ne soient branchés. À retirer une fois
  * l'intégration réelle en place.
  */
-import type { EvaluationResult } from "../types/models/EvaluationResult";
+import type { EvaluationResultModel } from "../types/models/evaluationResult.model.ts";
 
-export const sampleEvaluation: EvaluationResult = {
+export const sampleEvaluation: EvaluationResultModel = {
 
     codeArticle: "4501278",
     designation: "Platine principale — laiton nickelé",
@@ -17,17 +17,17 @@ export const sampleEvaluation: EvaluationResult = {
             level: 0,
             rules: [
                 {
-                    rule_id: "R-CA0001",
-                    rule_label: "Poids article renseigné pour la famille 007",
+                    ruleId: "R-CA0001",
+                    ruleLabel: "Poids article renseigné pour la famille 007",
                     verdict: "FAIL",
                     criticality: "normal",
-                    semi_formel: 'SI famille_article = "007" ALORS poids_article > 0',
+                    semiFormel: 'SI famille_article = "007" ALORS poids_article > 0',
                     libelle:
                         "Tout article de la famille 007 doit avoir un poids renseigné et strictement positif.",
                     zone: "caracteristiques",
                     construction: "comparaison simple",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [
                         {
                             subject: "Article 4501278",
@@ -41,18 +41,18 @@ export const sampleEvaluation: EvaluationResult = {
                     ],
                 },
                 {
-                    rule_id: "R-OP0001",
-                    rule_label: "Présence d'une fit BC",
+                    ruleId: "R-OP0001",
+                    ruleLabel: "Présence d'une fit BC",
                     verdict: "FAIL",
                     criticality: "critique",
-                    semi_formel:
+                    semiFormel:
                         'IL FAUT UNE fit_article AVEC libelle_fit COMMENCE PAR "BC"',
                     libelle:
                         'L\'article doit comporter au moins une fit dont le libellé commence par "BC".',
                     zone: "operations",
                     construction: "existence",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [
                         {
                             subject: "fits_article",
@@ -66,18 +66,18 @@ export const sampleEvaluation: EvaluationResult = {
                     ],
                 },
                 {
-                    rule_id: "R-AR0001",
-                    rule_label: "Pas de polissage vibrant après une opération de frappe",
+                    ruleId: "R-AR0001",
+                    ruleLabel: "Pas de polissage vibrant après une opération de frappe",
                     verdict: "FAIL",
                     criticality: "critique",
-                    semi_formel:
+                    semiFormel:
                         'AUCUNE operation DONT libelle_operation CONTIENT "POLISSAGE" ET APRES operation DONT libelle_operation CONTIENT "FRAPPE"',
                     libelle:
                         "Aucune opération de polissage vibrant ne doit être placée après une opération de frappe dans la gamme.",
                     zone: "operations",
                     construction: "négation",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [
                         {
                             subject: "Opération 01708200 — POLISSAGE VIBRANT",
@@ -91,18 +91,18 @@ export const sampleEvaluation: EvaluationResult = {
                     ],
                 },
                 {
-                    rule_id: "R-CA0011",
-                    rule_label: "Temps d'immobilisation cumulé sur la ressource S07",
+                    ruleId: "R-CA0011",
+                    ruleLabel: "Temps d'immobilisation cumulé sur la ressource S07",
                     verdict: "FAIL",
                     criticality: "normal",
-                    semi_formel:
+                    semiFormel:
                         'LA SOMME DES temps_immo DES operations CONSECUTIVES DONT ressource = "S07" DOIT ETRE EGALE A 120',
                     libelle:
                         "Le temps d'immobilisation cumulé des opérations consécutives sur la ressource S07 doit être exactement de 120 minutes.",
                     zone: "operations",
                     construction: "agrégation",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [
                         {
                             subject: "Opérations consécutives, ressource S07",
@@ -116,20 +116,20 @@ export const sampleEvaluation: EvaluationResult = {
                     ],
                 },
                 {
-                    rule_id: "R-GA0002",
-                    rule_label:
+                    ruleId: "R-GA0002",
+                    ruleLabel:
                         "Présence d'une opération de gravure sur toutes les gammes",
                     verdict: "FAIL",
                     criticality: "critique",
-                    semi_formel:
+                    semiFormel:
                         'TOUTES LES gammes DOIVENT AVOIR UNE operation AVEC code_operation = "01708080" SAUF SI famille_article = "000"',
                     libelle:
                         "Chaque gamme doit comporter une opération de gravure (code 01708080), sauf pour les articles de la famille 000.",
                     zone: "gammes",
                     construction: "for_all",
                     exempted: false,
-                    exemption_uncertain: true,
-                    uncertainty_reason:
+                    exemptionUncertain: true,
+                    uncertaintyReason:
                         "Le champ famille_article n'est pas renseigné pour cet article : impossible de vérifier si l'exception s'applique. La règle a été évaluée par précaution.",
                     evidence: [
                         {
@@ -144,62 +144,62 @@ export const sampleEvaluation: EvaluationResult = {
                     ],
                 },
                 {
-                    rule_id: "R-CA0003",
-                    rule_label: "Matière principale renseignée",
+                    ruleId: "R-CA0003",
+                    ruleLabel: "Matière principale renseignée",
                     verdict: "PASS",
                     criticality: "normal",
-                    semi_formel: "matiere_principale EST RENSEIGNE",
+                    semiFormel: "matiere_principale EST RENSEIGNE",
                     libelle: "La matière principale de l'article doit être renseignée.",
                     zone: "caracteristiques",
                     construction: "comparaison simple",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [],
                 },
                 {
-                    rule_id: "R-OP0010",
-                    rule_label: "Opération de contrôle final présente",
+                    ruleId: "R-OP0010",
+                    ruleLabel: "Opération de contrôle final présente",
                     verdict: "PASS",
                     criticality: "critique",
-                    semi_formel:
+                    semiFormel:
                         'IL FAUT UNE operation AVEC code_operation = "01900010"',
                     libelle:
                         "La gamme doit comporter une opération de contrôle final (code 01900010).",
                     zone: "operations",
                     construction: "existence",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [],
                 },
                 {
-                    rule_id: "R-GA0007",
-                    rule_label: "Gravure du logo dispensée pour la famille 000",
+                    ruleId: "R-GA0007",
+                    ruleLabel: "Gravure du logo dispensée pour la famille 000",
                     verdict: "PASS",
                     criticality: "critique",
-                    semi_formel:
+                    semiFormel:
                         'TOUTES LES gammes DOIVENT AVOIR UNE operation logo SAUF SI famille_article = "000"',
                     libelle:
                         "Chaque gamme doit comporter une opération de gravure du logo, sauf pour les articles de la famille 000.",
                     zone: "gammes",
                     construction: "for_all",
                     exempted: true,
-                    exemption_uncertain: false,
-                    exemption_reason:
+                    exemptionUncertain: false,
+                    exemptionReason:
                         "Cet article appartient à la famille 000, explicitement dispensée de cette règle.",
                     evidence: [],
                 },
                 {
-                    rule_id: "R-CL0003",
-                    rule_label: "Délai de livraison pour le client X",
+                    ruleId: "R-CL0003",
+                    ruleLabel: "Délai de livraison pour le client X",
                     verdict: "INCOMPLETE",
                     criticality: "normal",
-                    semi_formel: 'SI client = "X" ALORS delai_livraison < 30',
+                    semiFormel: 'SI client = "X" ALORS delai_livraison < 30',
                     libelle:
                         'Pour le client "X", le délai de livraison doit être inférieur à 30 jours.',
                     zone: "client",
                     construction: "incomplète",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [
                         {
                             subject: "Article 4501278",
@@ -220,16 +220,16 @@ export const sampleEvaluation: EvaluationResult = {
             level: 1,
             rules: [
                 {
-                    rule_id: "R-OP0006",
-                    rule_label: "Durée renseignée sur toutes les opérations",
+                    ruleId: "R-OP0006",
+                    ruleLabel: "Durée renseignée sur toutes les opérations",
                     verdict: "FAIL",
                     criticality: "normal",
-                    semi_formel: "TOUTES LES operations DOIVENT AVOIR duree EST RENSEIGNE",
+                    semiFormel: "TOUTES LES operations DOIVENT AVOIR duree EST RENSEIGNE",
                     libelle: "Toutes les opérations de la gamme doivent avoir une durée renseignée.",
                     zone: "operations",
                     construction: "for_all",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [
                         {
                             subject: "Opération 01708080",
@@ -258,18 +258,18 @@ export const sampleEvaluation: EvaluationResult = {
                     ],
                 },
                 {
-                    rule_id: "R-OP0006b",
-                    rule_label: "Opération de contrôle juste après la ressource 501",
+                    ruleId: "R-OP0006b",
+                    ruleLabel: "Opération de contrôle juste après la ressource 501",
                     verdict: "FAIL",
                     criticality: "normal",
-                    semi_formel:
+                    semiFormel:
                         'POUR CHAQUE operation DANS gammes DONT ressource = "501", IL FAUT UNE operation JUSTE APRES DONT code_operation = "01505010"',
                     libelle:
                         "Chaque opération réalisée sur la ressource 501 doit être immédiatement suivie d'une opération de contrôle (code 01505010).",
                     zone: "operations",
                     construction: "positionnel",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [
                         {
                             subject: "Opération 04501020 (ressource 501)",
@@ -283,16 +283,16 @@ export const sampleEvaluation: EvaluationResult = {
                     ],
                 },
                 {
-                    rule_id: "R-CA0002",
-                    rule_label: "Diamètre nominal renseigné",
+                    ruleId: "R-CA0002",
+                    ruleLabel: "Diamètre nominal renseigné",
                     verdict: "PASS",
                     criticality: "normal",
-                    semi_formel: "diametre_nominal > 0",
+                    semiFormel: "diametre_nominal > 0",
                     libelle: "Le diamètre nominal de l'article doit être renseigné et strictement positif.",
                     zone: "caracteristiques",
                     construction: "comparaison simple",
                     exempted: false,
-                    exemption_uncertain: false,
+                    exemptionUncertain: false,
                     evidence: [],
                 },
             ],

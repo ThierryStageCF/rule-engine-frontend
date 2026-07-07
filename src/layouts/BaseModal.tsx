@@ -11,11 +11,14 @@ export type BaseModalProps = {
     icon?: JSX.Element
 }
 
+/**
+ * Modale de base configurée qui accepte un enfant ReactNode.
+ */
 export default function BaseModal({open, onClose, children, title, subtitle, icon}: BaseModalProps): JSX.Element | null {
     if (!open) return null;
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-100 flex items-center justify-center p-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby="evaluate-title"

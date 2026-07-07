@@ -2,7 +2,7 @@ import { Download } from "lucide-react";
 import Card from "../../../ui/Card.tsx";
 import Stat from "../../../ui/Stat.tsx";
 import Button from "../../../ui/Button.tsx";
-import type {JSX} from "react";
+import {type JSX} from "react";
 
 type SummaryBannerProps = {
     fail: number;
@@ -25,9 +25,11 @@ export function SummaryBanner(
         incomplete,
         criticalFail,
     }: SummaryBannerProps): JSX.Element {
+    
 
     const evaluated: number = fail + pass + incomplete;
-    const rate: number = evaluated > 0 ? Math.round((pass / evaluated) * 100) : 0;
+    const rate : number = evaluated > 0 ? Math.round((pass / evaluated) * 100) : 0;
+
 
     return (
         <Card

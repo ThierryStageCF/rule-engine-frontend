@@ -1,4 +1,4 @@
-import type {ArticleResults} from "../../../lib/types/presentation/evaluationPresentation.ts";
+import type {ArticleFilteredByZoneResults} from "../../../lib/types/presentation/evaluation.model.presentation.ts";
 import type {JSX} from "react";
 import ResultByZoneBlock from "./ResultByZone.tsx";
 
@@ -6,7 +6,7 @@ import ResultByZoneBlock from "./ResultByZone.tsx";
  * @summary Composant fonctionnel qui affiche les résultats d'un article seul
  * @param article Résultats d'un article
  */
-export default function ResultByArticleBlock({ article }: { article: ArticleResults }): JSX.Element {
+export default function ResultByArticleBlock({ article }: { article: ArticleFilteredByZoneResults }): JSX.Element {
     return (
         <div>
             {/* Code et désignation de l'article courant */}

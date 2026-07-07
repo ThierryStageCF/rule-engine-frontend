@@ -1,4 +1,4 @@
-import type {RuleResult} from "../../../lib/types/models/EvaluationResult.ts";
+import type {RuleResult} from "../../../lib/types/models/evaluationResult.model.ts";
 import type {JSX} from "react";
 
 /**
@@ -27,7 +27,7 @@ export default function RuleExpression({ rule }: { rule: RuleResult }): JSX.Elem
                   Formel:
                 </span>
                 <code className="min-w-0 flex-1 whitespace-wrap wrap-break-word text-sm text-foreground/90">
-                    {rule.semi_formel}
+                    {rule.semiFormel}
                 </code>
             </div>
         </div>

@@ -1,18 +1,18 @@
 import {type JSX} from "react";
 import {Sparkles} from "lucide-react";
 import hero_image from "../../assets/hero_panel.png";
-import {EvaluateModal} from "./ArticleEvaluationModal.tsx";
-import {useModal} from "../../lib/hooks/useModal.ts";
+import {useModalState} from "../../lib/hooks/useModalState.ts";
 import Button from "../../ui/Button.tsx";
+import {EvaluateModal} from "../modals/ArticleEvaluationModal.tsx";
 
 
 export function Hero(): JSX.Element{
 
-    const modalManagement = useModal();
+    const {isModalOpen, setIsModalOpen} = useModalState();
 
 
     return (
-        <section className="w-full max-w-7xl flex-1  mx-auto grid grid-cols-1 items-center  px-5 py-8 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:py-0">
+        <section className="w-full max-w-340 flex-1  mx-auto grid grid-cols-1 items-center  px-5 py-8 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:py-0">
             <div className="max-w-xl">
                 <div className="inline-flex bg-base  items-center px-4 py-2 rounded-2xl gap-2 border">
                     <Sparkles className="size-3.5 text-ring"/>
@@ -36,7 +36,7 @@ export function Hero(): JSX.Element{
                     label="Evaluer un article"
                     size="xl"
                     rounded="xl"
-                    onClick={()=> modalManagement.setOpen(true)}
+                    onClick={()=> setIsModalOpen(true)}
                 />
 
 
@@ -44,8 +44,8 @@ export function Hero(): JSX.Element{
 
             <img src={hero_image} alt="" className="w-full h-auto max-h-[70vh] object-contain animate-float" />
             <EvaluateModal
-                open={modalManagement.open}
-                onClose={() => modalManagement.setOpen(false)}
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
             />
         </section>
     )

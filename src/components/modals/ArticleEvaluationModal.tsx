@@ -1,8 +1,8 @@
 import { ScanSearch } from "lucide-react"
 import InputField from "../../ui/InputField.tsx";
-import BaseModal from "../modals/BaseModal.tsx";
 import Button from "../../ui/Button.tsx";
 import {useArticleEvaluationModal} from "../../lib/hooks/useArticleEvaluationModal.ts";
+import BaseModal from "../../layouts/BaseModal.tsx";
 
 
 type EvaluateModalProps = {
@@ -11,7 +11,7 @@ type EvaluateModalProps = {
 }
 
 export function EvaluateModal({ open, onClose }: EvaluateModalProps) {
-    const {zodParams, isLoading, axiosErrors} = useArticleEvaluationModal();
+    const {form, actions} = useArticleEvaluationModal(onClose);
     return (
         <BaseModal
             open={open}
@@ -20,13 +20,12 @@ export function EvaluateModal({ open, onClose }: EvaluateModalProps) {
             subtitle="Saisissez le code de l&apos;article à contrôler. Le moteur vérifiera sa conformité au regard des règles métier en vigueur."
             icon={<ScanSearch className="size-5" />}
         >
-            <form onSubmit={zodParams.handleSubmit(zodParams.handleEvaluateArticle)}>
-                {axiosErrors && <p className="text-red-500 font-semibold text-sm mb-5">{axiosErrors.code_article}</p>}
+            <form onSubmit={form.handleSubmit(actions.handleEvaluateArticle)}>
                 <InputField
                     id="code_article"
                     placeholder="ex. 0154685"
-                    register={zodParams.register && zodParams.register("article_code")}
-                    error={ zodParams.errors?.article_code?.message}
+                    register={form.register && form.register("codeArticle")}
+                    error={ form.errors?.codeArticle?.message}
                 />
                 {/* Actions */}
                 <div className="mt-6 flex items-center justify-end gap-3">
@@ -37,7 +36,7 @@ export function EvaluateModal({ open, onClose }: EvaluateModalProps) {
                         style="solid"
                         rounded="xl"
                         onClick={()=> {
-                            zodParams.reset();
+                            form.reset();
                             onClose();
                         }}
                     />
@@ -47,7 +46,6 @@ export function EvaluateModal({ open, onClose }: EvaluateModalProps) {
                         variant="primary"
                         style="solid"
                         rounded="xl"
-                        disabled={isLoading}
                     />
                 </div>
             </form>

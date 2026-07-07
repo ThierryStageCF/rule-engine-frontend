@@ -1,21 +1,25 @@
 import type { JSX } from "react"
 
 interface LoadingScreenProps {
+    /** Titre principal — défaut : "Chargement". */
     title?: string
+    /** Sous-texte optionnel sous le titre. */
     message?: string
 }
 
 /**
- * Écran de chargement plein écran
+ * Écran de chargement plein écran, centré, dans la charte Cheval Frères.
+ * Un anneau qui tourne autour d'un bouclier (rappel du hero), avec un
+ * titre et des points animés.
  */
-function LoadingPage(
+export default function LoadingScreen(
     {
-        title = "Chargement",
-        message = "Veuillez patienter nous chargons la page",
+      title = "Chargement",
+      message = "Veuillez patienter nous chargons la page ....",
     }: LoadingScreenProps): JSX.Element
 {
     return (
-        <div className="flex h-screen w-full flex-col items-center justify-center gap-9 backdrop-blur-sm">
+        <div className="flex h-screen w-full flex-col items-center justify-center gap-9 bg-background">
             {/* Spinner + bouclier */}
             <div className="relative h-24 w-24">
                 {/* anneau de fond */}
@@ -55,10 +59,12 @@ function LoadingPage(
                     {title}
                     <span className="loading-dots" />
                 </p>
-                {message &&
+                {message && (
                     <p className="mt-1.5 text-sm text-muted-foreground">{message}</p>
-                }
+                )}
             </div>
+
+            {/* points animés — style inline, pas de fichier CSS externe requis */}
             <style>
                 {`
                     @keyframes loading-dots {
@@ -77,5 +83,3 @@ function LoadingPage(
         </div>
     )
 }
-
-export default LoadingPage;

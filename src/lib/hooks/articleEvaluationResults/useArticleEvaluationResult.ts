@@ -1,27 +1,64 @@
 import {type Location, useLocation} from "react-router-dom";
-import type {EvaluationResult, ZoneKey} from "../../types/models/EvaluationResult.ts";
+import type {DomainZone} from "../../types/models/evaluationResult.model.ts";
 import {useMemo, useState} from "react";
-import type {FilterCounts, Filters} from "../../types/presentation/evaluationPresentation.ts";
+import type {
+    FilterCounts,
+    EvaluationResultFilters
+} from "../../types/presentation/evaluation.model.presentation.ts";
 import {DEFAULT_FILTERS, VERDICT_SECTION_ORDER} from "../../utils/constands.ts";
-import {buildLevelGroups} from "../../utils/functions.ts";
+import {buildResultsByLevel} from "../../builder/evaluationResultBuilder.ts";
+import {useEvaluationQuery} from "../../queries/useEvaluationQuery.ts";
+import type {ErrorResponse, ResponseEntity} from "../../types/entities/response.entity.ts";
+import {isHTTPError} from "ky";
 
+/**
+ * @summary Hook Custom chargé de la logique UI de la page qui affiche les résultats d'une évaluation sur un article.
+ */
 export function useArticleEvaluationResult() {
 
+    /* Récupération des résultats depuis l'URL */
     const location: Location = useLocation();
-    const evaluation: EvaluationResult = location.state?.evaluation;
+    const codeArticle : string = location.state?.codeArticle;
 
-    const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    /* Filtres */
+    const [filters, setFilters] = useState<EvaluationResultFilters>(DEFAULT_FILTERS);
+    const [canOpenModal, setCanOpenModal] = useState<boolean>(false);
 
-    const allEvaluatedRules = useMemo(() =>
-            evaluation?.articles.flatMap((a) => a.rules) ?? [], [evaluation]
-    );
+    /* Récupération des données serveurs et avec la gestion d'état et erreurs */
+    const {
+        data: evaluationResults,
+        isLoading,
+        isError,
+        error,
+        refetch,
+        isRefetching
+    } = useEvaluationQuery(codeArticle);
 
-    const counts: FilterCounts & { criticalFail: number } = useMemo(() => {
-        const byZone: Record<ZoneKey, number> = {
+    let errors: ErrorResponse[] = [];
+    if (isHTTPError(error)){
+        const errorData = error?.data as ResponseEntity<null>;
+        errors = errorData.errors;
+    }
+    else if(evaluationResults === undefined) {
+        errors = [
+            {
+                code: "",
+                message: "Une érreur interne s'est produite" !
+            }
+        ]
+    }
+
+    /* Tous les résultats d'évaluation à plat. */
+    const allEvaluatedRules = useMemo(() => {
+        return evaluationResults?.articles.flatMap((a) => a.rules) ?? []
+    }, [evaluationResults]);
+
+    /* statistiques de l'évaluation */
+    const countsPerFilters: FilterCounts & { criticalFail: number } = useMemo(() => {
+        const countByZone: Record<DomainZone, number> = {
             caracteristiques: 0,
-            operations: 0,
-            gammes: 0,
+            operation: 0,
+            gamme: 0,
             client: 0,
             nomenclature: 0,
             article: 0,
@@ -38,7 +75,7 @@ export function useArticleEvaluationResult() {
             if (r.verdict === "INCOMPLETE") incomplete++
             if (r.exempted) exempted++
             if (r.verdict === "FAIL" && r.criticality === "critique") criticalFail++
-            byZone[r.zone]++
+            countByZone[r.zone]++
         }
         return {
             total: allEvaluatedRules.length,
@@ -47,32 +84,47 @@ export function useArticleEvaluationResult() {
             incomplete,
             exempted,
             criticalFail,
-            byZone,
+            byZone: countByZone,
         }
     }, [allEvaluatedRules])
 
+    /* Réordonnement des résultats par Verdict (PASS, INCOMPLET, FAIL, WARNING) */
     const resultByVerdict = useMemo(() => {
-        if (!evaluation) return []
+        if (!evaluationResults) return []
         return VERDICT_SECTION_ORDER.filter((verdict) => filters.verdict === "all" || filters.verdict === verdict)
             .map((verdict) => (
                     {
                         verdict,
-                        resultsByLevel: buildLevelGroups(evaluation, verdict, filters)
+                        resultsByLevel: buildResultsByLevel(evaluationResults, verdict, filters)
                     }
                 )
             )
-    }, [evaluation, filters])
-
+    }, [evaluationResults, filters])
 
 
     return {
-        management: {
+        ui: {
             filters,
+            canOpenModal,
+            isLoading,
+            isError,
+            isRefetching,
+        },
+
+        data: {
+            evaluationResults,
+            countsPerFilters,
+            resultByVerdict,
+            errors
+        },
+
+        actions: {
             setFilters,
-            modalOpen,
-            setModalOpen,
-
+            setCanOpenModal,
+            handleReevaluate: refetch,
         }
-
-    };
+    }
 }
+
+
+

@@ -2,7 +2,7 @@ import {z} from 'zod';
 
 
 export const evaluateArticleSchema = z.object({
-    article_code: z.string().min(1, "Le code article est obligatoire !")
+    codeArticle: z.string("Le code article est obligatoire !").min(5, "Rentrez un code article valide")
 });
 
 export type EvaluateArticleFormType = z.infer<typeof evaluateArticleSchema>;

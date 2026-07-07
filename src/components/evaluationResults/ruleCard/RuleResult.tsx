@@ -1,5 +1,5 @@
 import {useId, useState} from "react";
-import type {RuleResult} from "../../../lib/types/models/EvaluationResult.ts";
+import type {RuleResult} from "../../../lib/types/models/evaluationResult.model.ts";
 import {AlertTriangle, Ban, Info} from "lucide-react";
 import DisclosureButton from "../../../ui/DisclosureButton.tsx";
 import {EvidenceItem} from "../results/EvidenceItem.tsx";
@@ -56,7 +56,7 @@ export default function RuleResultCard({ rule }: { rule: RuleResult }) {
 
             <div>
                 {/* Titre Exemptions Incertaine */}
-                {(rule.exemption_uncertain && rule?.uncertainty_reason)  &&
+                {(rule.exemptionUncertain && rule?.uncertaintyReason)  &&
                     (
                         <div className="mt-4 mb-2">
                             <h3 className="font-semibold inline-flex">
@@ -68,7 +68,7 @@ export default function RuleResultCard({ rule }: { rule: RuleResult }) {
                     )
                 }
                 {/* Titre Exemptions */}
-                {(rule.exempted && rule?.exemption_reason) &&
+                {(rule.exempted && rule?.exemptionReason) &&
                     (
                         <div className="mt-4 mb-2">
                             <h3 className="font-semibold inline-flex">
@@ -79,28 +79,28 @@ export default function RuleResultCard({ rule }: { rule: RuleResult }) {
                     )
                 }
                 {/* Règle exemptée - Explication de l'exemption */}
-                {rule.exempted && rule?.exemption_reason && (
+                {rule.exempted && rule?.exemptionReason && (
                     <div className="mt-4 ml-6">
                         <Badge
                             variant="accent"
                             size="md"
                         >
                             <span className="min-h-10 items-center justify-center flex">
-                                {rule?.exemption_reason}
+                                {rule?.exemptionReason}
                             </span>
                         </Badge>
                     </div>
                 )}
 
                 {/* Règle dont l'exemption est certaine, et on a appliqué la règle par précaution */}
-                {rule.exemption_uncertain && rule?.uncertainty_reason && (
+                {rule.exemptionUncertain && rule?.uncertaintyReason && (
                     <div className="mt-4 ml-6">
                         <Badge
                             variant="warning"
                             size="md"
                         >
                             <span className="min-h-10 items-center justify-center flex">
-                                {rule?.uncertainty_reason}
+                                {rule?.uncertaintyReason}
                             </span>
                         </Badge>
                     </div>

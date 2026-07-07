@@ -1,6 +1,6 @@
 import {VERDICT_METADATA} from "../../../lib/utils/constands.ts";
-import {type ResultsByLevel} from "../../../lib/types/presentation/evaluationPresentation.ts";
-import type {Verdict} from "../../../lib/types/models/EvaluationResult.ts";
+import {type NomenclatureLevelResult} from "../../../lib/types/presentation/evaluation.model.presentation.ts";
+import type {Verdict} from "../../../lib/types/models/evaluationResult.model.ts";
 import {zoneCount} from "../../../lib/utils/functions.ts";
 import Card from "../../../ui/Card.tsx";
 import type {JSX} from "react";
@@ -8,7 +8,7 @@ import ResultByLevelBlock from "./ResultByLevelBlock.tsx";
 
 export type ResultByVerdictProps =  {
     verdict: Verdict,
-    resultsByLevel: ResultsByLevel[]
+    resultsByLevel: NomenclatureLevelResult[]
 }
 
 /**
@@ -23,12 +23,11 @@ export default function ResultByVerdict(
     } : ResultByVerdictProps): JSX.Element {
 
 
-    const verdictMetadata = VERDICT_METADATA[verdict]
-    const VerdictIcon = verdictMetadata.icon
-    const numberOfRules = resultsByLevel.reduce(
-        (sum, g) => sum + g.resultsByArticle.reduce((s, a) => s + zoneCount(a.resultByZone), 0),
-        0,
-    )
+    const verdictMetadata = VERDICT_METADATA[verdict];
+    const VerdictIcon = verdictMetadata.icon;
+    const numberOfRules = resultsByLevel.reduce((sum, result) => sum + result.resultsByArticle
+            .reduce((s, a) => s + zoneCount(a.resultByZone), 0), 0,
+    );
 
     return (
         <section id={`section-${verdict}`}

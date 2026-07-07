@@ -1,4 +1,4 @@
-import type {ResultByZone} from "../../../lib/types/presentation/evaluationPresentation.ts";
+import type {ZoneResults} from "../../../lib/types/presentation/evaluation.model.presentation.ts";
 import {ZONE_ICONS, ZONE_LABELS} from "../../../lib/utils/constands.ts";
 import type {LucideIcon} from "lucide-react";
 import {RuleCard} from "../ruleCard/RuleCard.tsx";
@@ -7,7 +7,7 @@ import {RuleCard} from "../ruleCard/RuleCard.tsx";
  * @summary Composant fonctionnel qui affiche les résultats d'évaluation d'un article par zone métier
  * @param resultsByZone Résultats par zone métier.
  */
-export default function ResultByZoneBlock({ resultsByZone }: { resultsByZone: ResultByZone[] }) {
+export default function ResultByZoneBlock({ resultsByZone }: { resultsByZone: ZoneResults[] }) {
     return (
         <div className="grid gap-6 mt-5">
             {resultsByZone.map((resultByZone) => {
@@ -30,7 +30,7 @@ export default function ResultByZoneBlock({ resultsByZone }: { resultsByZone: Re
                         <div className="grid gap-4">
                             {resultByZone.results.map((ruleResult, i) => (
                                 <RuleCard
-                                    key={`${ruleResult.rule_id}-${i}`}
+                                    key={`${ruleResult.ruleId}-${i}`}
                                     rule={ruleResult}
                                 />
                             ))}

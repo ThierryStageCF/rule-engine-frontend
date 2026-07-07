@@ -1,9 +1,10 @@
 import {type JSX, useId, useState} from "react"
 
-import type { Evidence } from "../../../lib/types/models/EvaluationResult";
-import {detailRows} from "../../../lib/utils/functions.ts";
+import type { Evidence } from "../../../lib/types/models/evaluationResult.model.ts";
 import DisclosureButton from "../../../ui/DisclosureButton.tsx";
 import Card from "../../../ui/Card.tsx";
+import {buildEvidenceDetailRows} from "../../../lib/builder/evaluationResultBuilder.ts";
+import type {EvidenceDetailRow} from "../../../lib/types/presentation/evaluation.model.presentation.ts";
 
 
 export interface EvidenceItemProps {
@@ -16,51 +17,52 @@ export interface EvidenceItemProps {
  * @param tone
  */
 export function EvidenceItem({evidence}: EvidenceItemProps): JSX.Element {
-    const [open, setOpen] = useState<boolean>(false)
-    const detailId = useId()
-    const rows = detailRows(evidence)
+    const [open, setOpen] = useState<boolean>(!evidence.phrase);
+    const detailId: string = useId();
+    const evidenceDetail: EvidenceDetailRow[] = buildEvidenceDetailRows(evidence);
 
 
     return (
         <Card variant="secondary">
 
             {/* Explication de l'échec de l'évaluation */}
-            <p className="mt-2 text-sm leading-relaxed text-foreground text-pretty">
-                {evidence.phrase}
-            </p>
+            {evidence.phrase &&
+                <p className="mt-2 text-sm leading-relaxed text-foreground text-pretty">
+                    {evidence.phrase}
+                </p>
+            }
 
             {/* Affichage les détails de l'évidence */}
-            {rows.length > 0 && (
+            {evidenceDetail.length > 0 && (
                 <div className="mt-3">
-                    <DisclosureButton
-                        controlsId={detailId}
-                        variant="inline"
-                        open={open}
-                        onToggle={() => setOpen(open => !open)}
-                    >
-                        {open ? "Masquer le détail" : "Voir le détail"}
-                    </DisclosureButton>
+                    {evidence.phrase &&
+                        <DisclosureButton
+                            controlsId={detailId}
+                            variant="inline"
+                            open={open}
+                            onToggle={() => setOpen(open => !open)}
+                        >
+                            {open ? "Masquer le détail" : "Voir le détail"}
+                        </DisclosureButton>
+                    }
 
                     {open && (
                         <dl
                             id={detailId}
-                            className="mt-3 grid gap-3  p-3 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]"
+                            className="mt-3 grid gap-3 p-1 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]"
                         >
-                            {rows.map((row) => (
-                                <div key={row.label}>
+                            {evidenceDetail.map((detail) => (
+                                <div key={detail.label}>
                                     <dt className="text-[0.65rem] font-semibold uppercase tracking-wide text-muted-foreground">
-                                        {row.label}
+                                        {detail.label}
                                     </dt>
                                     <dd
                                         className={`mt-1 font-mono text-sm wrap-break-word ${
-                                            row.tone === "expected"
-                                                ? "text-success"
-                                                : row.tone === "actual"
-                                                    ? "text-danger"
-                                                    : "text-foreground"
+                                            detail.tone === "expected" ? "text-success" :
+                                                detail.tone === "actual" ? "text-danger" : "text-foreground"
                                         }`}
                                     >
-                                        {row.value}
+                                        {detail.value}
                                     </dd>
                                 </div>
                             ))}

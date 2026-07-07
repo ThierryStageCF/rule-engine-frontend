@@ -1,5 +1,5 @@
 import {type JSX } from "react"
-import type { RuleResult } from "../../../lib/types/models/EvaluationResult";
+import type { RuleResult } from "../../../lib/types/models/evaluationResult.model.ts";
 import RuleCardHeader from "./RuleHeader.tsx";
 import RuleExpression from "./RuleExpression.tsx";
 import RuleResultCard from "./RuleResult.tsx";

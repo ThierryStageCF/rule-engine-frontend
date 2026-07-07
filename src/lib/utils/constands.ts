@@ -1,22 +1,20 @@
 /**
- * Métadonnées de présentation dérivées du modèle d'évaluation.
- * Séparé du modèle de données pur : ici vivent les libellés d'affichage,
- * les ordres canoniques et les helpers de formatage pour l'UI.
+ * Constantes utiles à l'affichage des pages de façon plus automatique.
  */
-import type {Criticality, Verdict, ZoneKey} from "../types/models/EvaluationResult.ts";
+import type {Criticality, Verdict, DomainZone} from "../types/models/evaluationResult.model.ts";
 import {
     CheckCircle2, Cog, HelpCircle, ListChecks, Package, Boxes, FileText, type LucideIcon, Sliders, UserRound, XCircle,
-    ShieldAlert, Ban, AlertTriangle
+    ShieldAlert
 } from "lucide-react";
-import type {CriticalityFilter, Filters, VerdictFilter} from "../types/presentation/evaluationPresentation.ts";
+import type {CriticalityFilter, EvaluationResultFilters} from "../types/presentation/evaluation.model.presentation.ts";
 import type {BadgeProps} from "../../ui/Badge.tsx";
 
 
 
-export const ZONE_LABELS: Record<ZoneKey, string> = {
+export const ZONE_LABELS: Record<DomainZone, string> = {
     caracteristiques: "Caractéristiques",
-    operations: "Opérations",
-    gammes: "Gammes",
+    operation: "Opérations",
+    gamme: "Gammes",
     client: "Client",
     apport: "apports",
     nomenclature: "nomenclature",
@@ -24,13 +22,13 @@ export const ZONE_LABELS: Record<ZoneKey, string> = {
 };
 
 /** Ordre d'affichage canonique des zones lors du regroupement. */
-export const ZONE_ORDER: ZoneKey[] = [
+export const ZONE_ORDER: DomainZone[] = [
     "article",
     "caracteristiques",
     "client",
     "nomenclature",
-    "gammes",
-    "operations",
+    "gamme",
+    "operation",
     "apport",
 ];
 
@@ -56,27 +54,30 @@ export const VERDICT_METADATA: Record<Verdict, { title: string; description: str
     },
     INCOMPLETE: {
         title: "Incomplètes",
-        description:
-            "Information manquante pour trancher — à compléter si nécessaire.",
+        description: "Information manquante pour trancher — à compléter si nécessaire.",
         icon: HelpCircle,
         accent: "bg-warning",
     },
 }
 
-export const VERDICT_SECTION_ORDER: Verdict[] = ["FAIL", "PASS", "INCOMPLETE"]
+export const VERDICT_SECTION_ORDER: Verdict[] = [
+    "FAIL",
+    "PASS",
+    "INCOMPLETE"
+]
 
 
-export const DEFAULT_FILTERS: Filters = {
+export const DEFAULT_FILTERS: EvaluationResultFilters = {
     verdict: "all",
     criticality: "all",
     zones: [],
     exemptionsOnly: false,
 }
 
-export const ZONE_ICONS: Record<ZoneKey, LucideIcon> = {
+export const ZONE_ICONS: Record<DomainZone, LucideIcon> = {
     caracteristiques: Sliders,
-    operations: Cog,
-    gammes: ListChecks,
+    operation: Cog,
+    gamme: ListChecks,
     client: UserRound,
     article: FileText,
     nomenclature: Package,
@@ -88,14 +89,6 @@ export const CRITICALITY_OPTIONS: { value: CriticalityFilter; label: string }[] 
     { value: "critique", label: "Critiques" },
     { value: "normal", label: "Normales" },
 ]
-
-export const VERDICT_TAB_ACTIVE: Record<VerdictFilter, string> = {
-    all: "bg-primary text-primary-foreground",
-    FAIL: "bg-danger text-danger-foreground",
-    PASS: "bg-success text-success-foreground",
-    INCOMPLETE: "bg-warning text-warning-foreground",
-}
-
 
 export const VERDICT_BADGES: Record<Verdict,  Omit<BadgeProps, "children">> = {
     PASS: {
@@ -127,16 +120,4 @@ export const CRITICALITY_BADGES: Record<Criticality, Omit<BadgeProps, "children"
         rounded: "md",
         uppercase: true,
     },
-};
-
-export const EXEMPTION_BADGE: Omit<BadgeProps, "children"> = {
-    variant: "accent",
-    icon: Ban,
-    rounded: "full",
-};
-
-export const UNCERTAINTY_BADGE: Omit<BadgeProps, "children"> = {
-    variant: "warning",
-    icon: AlertTriangle,
-    rounded: "full",
 };
