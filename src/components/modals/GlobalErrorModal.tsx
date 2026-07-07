@@ -1,7 +1,7 @@
-import BaseModal from "./BaseModal.tsx";
 import {useGlobalError} from "../../lib/hooks/useGlobalError.ts";
 import {globalErrorState} from "../../lib/store/globalErrorStore.ts";
 import Button from "../../ui/Button.tsx";
+import BaseModal from "../../layouts/BaseModal.tsx";
 
 /**
  * Modal permettant d'afficher des erreurs globales (5XX) et les erreurs réseaux.
