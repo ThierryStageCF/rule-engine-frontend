@@ -41,3 +41,29 @@ export const NotFoundPage = React.lazy(
         }
     )
 )
+
+
+export const RuleDetailsPage = React.lazy(
+    async () => (
+        {
+            default: (await import ("../pages/RuleDetailsPage")).default
+        }
+    )
+)
+
+export const RuleEditPage = React.lazy(
+    async () => (
+        {
+            default: (await import ("../pages/RuleDetailsPage")).default
+        }
+    )
+)
+
+
+export const RuleAddPage = React.lazy(
+    async () => (
+        {
+            default: (await import ("../pages/RuleDetailsPage")).default
+        }
+    )
+)

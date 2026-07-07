@@ -2,9 +2,7 @@ import type { JSX } from "react"
 import { Link } from "react-router-dom"
 
 /**
- * Page 404 plein écran, dans la charte Cheval Frères.
- * Illustration (document égaré + loupe), grand code 404, message,
- * et deux actions de retour.
+ * Page 404 plein écran.
  */
 function NotFoundPage(): JSX.Element {
     return (

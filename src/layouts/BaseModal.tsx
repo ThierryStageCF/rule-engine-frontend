@@ -1,32 +1,51 @@
-import type {JSX} from "react";
-import {ScanSearch, X} from "lucide-react";
+import type { JSX } from "react";
+import { X } from "lucide-react";
 
+type ModalSize = "sm" | "md" | "lg" | "xl";
 
 export type BaseModalProps = {
     open: boolean;
-    onClose: () => void
-    children: JSX.Element
-    title: string
-    subtitle?: string
-    icon?: JSX.Element
-}
+    onClose: () => void;
+    children: JSX.Element;
+    title: string;
+    subtitle?: string;
+    icon?: JSX.Element;
+    size?: ModalSize;
+};
+
+const SIZES: Record<ModalSize, string> = {
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-2xl",
+};
 
 /**
- * Modale de base configurée qui accepte un enfant ReactNode.
+ * Modale de base : centrée, largeur réglable, corps scrollable si le contenu est haut.
  */
-export default function BaseModal({open, onClose, children, title, subtitle, icon}: BaseModalProps): JSX.Element | null {
+export default function BaseModal(
+    {
+        open,
+        onClose,
+        children,
+        title,
+        subtitle,
+        icon,
+        size = "md",
+    }: BaseModalProps): JSX.Element | null {
+
     if (!open) return null;
     return (
         <div
             className="fixed inset-0 z-100 flex items-center justify-center p-4"
             role="dialog"
             aria-modal="true"
-            aria-labelledby="evaluate-title"
+            aria-labelledby="base-modal-title"
         >
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-primary/40 backdrop-blur-sm animate-fade-in-up"/>
-            <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-base-color p-6 shadow-2xl shadow-primary/20 animate-fade-in-up sm:p-7">
-                <div className="mb-4 flex flex-col items-center justify-center">
+            <div className="absolute inset-0 bg-primary/40 backdrop-blur-sm animate-fade-in-up" onClick={onClose} />
+            <div className={`relative z-10 flex max-h-[85vh] w-full ${SIZES[size]} flex-col rounded-2xl border border-border bg-base-color shadow-2xl shadow-primary/20 animate-fade-in-up`}>
+                {/* En-tête fixe */}
+                <div className="relative flex flex-col items-center justify-center px-6 pt-6 pb-4 sm:px-7">
                     <button
                         type="button"
                         onClick={onClose}
@@ -35,17 +54,19 @@ export default function BaseModal({open, onClose, children, title, subtitle, ico
                     >
                         <X className="size-4" />
                     </button>
-
                     {icon && (
                         <div className="flex size-11 items-center justify-center rounded-xl bg-icon-accent/10 text-icon-accent">
-                            <ScanSearch className="size-5" />
+                            {icon}
                         </div>
                     )}
-                    <h2 id="evaluate-title" className="mt-4 text-xl font-semibold tracking-tight text-foreground text-balance">{title}</h2>
-                    {subtitle && (<p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">{subtitle}</p>)}
+                    <h2 id="base-modal-title" className="mt-4 text-xl font-semibold tracking-tight text-foreground text-balance">{title}</h2>
+                    {subtitle && <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">{subtitle}</p>}
                 </div>
-                {children}
+                {/* Corps scrollable */}
+                <div className="overflow-y-auto px-6 pb-6 sm:px-7">
+                    {children}
+                </div>
             </div>
         </div>
-    )
+    );
 }

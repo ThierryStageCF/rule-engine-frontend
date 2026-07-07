@@ -3,7 +3,7 @@ import {type JSX, useId, useState} from "react"
 import type { Evidence } from "../../../lib/types/models/evaluationResult.model.ts";
 import DisclosureButton from "../../../ui/DisclosureButton.tsx";
 import Card from "../../../ui/Card.tsx";
-import {buildEvidenceDetailRows} from "../../../lib/builder/evaluationResultBuilder.ts";
+import {buildEvidenceDetailRows} from "../../../lib/builder/evaluationResult.builder.ts";
 import type {EvidenceDetailRow} from "../../../lib/types/presentation/evaluation.model.presentation.ts";
 
 

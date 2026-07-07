@@ -6,7 +6,7 @@ import type {
     EvaluationResultFilters
 } from "../../types/presentation/evaluation.model.presentation.ts";
 import {DEFAULT_FILTERS, VERDICT_SECTION_ORDER} from "../../utils/constands.ts";
-import {buildResultsByLevel} from "../../builder/evaluationResultBuilder.ts";
+import {buildResultsByLevel} from "../../builder/evaluationResult.builder.ts";
 import {useEvaluationQuery} from "../../queries/useEvaluationQuery.ts";
 import type {ErrorResponse, ResponseEntity} from "../../types/entities/response.entity.ts";
 import {isHTTPError} from "ky";

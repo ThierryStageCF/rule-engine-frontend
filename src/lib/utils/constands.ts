@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import type {CriticalityFilter, EvaluationResultFilters} from "../types/presentation/evaluation.model.presentation.ts";
 import type {BadgeProps} from "../../ui/Badge.tsx";
+import type {RuleLocalFilters} from "../types/presentation/rule.model.presentation.ts";
 
 
 
@@ -72,6 +73,11 @@ export const DEFAULT_FILTERS: EvaluationResultFilters = {
     criticality: "all",
     zones: [],
     exemptionsOnly: false,
+}
+
+export const DEFAULT_RULES_FILTERS: RuleLocalFilters = {
+    zones: [],
+    criticality: "all",
 }
 
 export const ZONE_ICONS: Record<DomainZone, LucideIcon> = {
