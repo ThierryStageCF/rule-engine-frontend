@@ -97,8 +97,14 @@ export const CRITICALITY_OPTIONS: { value: CriticalityFilter; label: string }[] 
 ]
 
 export const PURE_CRITICALITY_OPTIONS: { value:Criticality; label: string }[] = [
-    { value: "critique", label: "Critiques" },
-    { value: "normal", label: "Normales" },
+    {
+        value: "critique",
+        label: "Critiques"
+    },
+    {
+        value: "normal",
+        label: "Normales"
+    },
 ]
 
 
@@ -125,11 +131,11 @@ export const CRITICALITY_BADGES: Record<Criticality, Omit<BadgeProps, "children"
         variant: "danger",
         icon: ShieldAlert,
         uppercase: true,
-        rounded: "md",
+        rounded: "full",
     },
     normal: {
-        variant: "neutral",
-        rounded: "md",
+        variant: "success",
+        rounded: "full",
         uppercase: true,
     },
 };

@@ -40,8 +40,7 @@ export function buildRuleCounts(rules: Rule[]): RuleCounts {
  * @param rules Liste à ordonner
  */
 export function sortRules(rules: Rule[]): Rule[] {
-    const rank = (zone?: DomainZone): number =>
-        zone ? ZONE_ORDER.indexOf(zone) : ZONE_ORDER.length;
+    const rank = (zone: DomainZone): number => ZONE_ORDER.indexOf(zone);
     return [...rules].sort(
         (a, b) => rank(a.zone) - rank(b.zone) || a.ruleId.localeCompare(b.ruleId),
     );
@@ -62,7 +61,7 @@ export function filterRulesLocally(rules: Rule[], filters: RuleLocalFilters): Ru
  * Zones : si aucune sélectionnée, l'axe est inactif ; sinon appartenance.
  */
 function matchesLocal(rule: Rule, filters: RuleLocalFilters): boolean {
-    if (filters.zones.length > 0 && (!rule.zone || !filters.zones.includes(rule.zone))) {
+    if (filters.zones.length > 0 && (!filters.zones.includes(rule.zone))) {
         return false;
     }
     return !(filters.criticality !== "all" && rule.criticality !== filters.criticality);

@@ -12,8 +12,8 @@ export const EvaluationService = {
 
     evaluateArticle: async (codeArticle: string): Promise<ResponseEntity<EvaluationResultDTO>> => {
         return await apiClient
-            .get(`/evaluation/${codeArticle}`)
-            .json<ResponseEntity<EvaluationResultDTO>>();
+            .get<ResponseEntity<EvaluationResultDTO>>(`/evaluation/${codeArticle}`)
+            .json();
     }
 }
 

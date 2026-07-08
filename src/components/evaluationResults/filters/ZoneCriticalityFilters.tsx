@@ -40,7 +40,7 @@ export function ZoneCriticalityFilters(
         const has = filters.zones.includes(zone);
         onFilterChange({
             ...filters,
-            zones: has ? filters.zones.filter((z) => z !== zone) : [...filters.zones, zone],
+            zone: has ? filters.zones.filter((z) => z !== zone) : [...filters.zones, zone],
         });
     }
 

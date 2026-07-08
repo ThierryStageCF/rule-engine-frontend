@@ -4,12 +4,12 @@ import { RuleRow } from "./RuleRow.tsx";
 
 export type RuleTableProps = {
     rules: Rule[];
-    onOpen: (ruleId: string) => void;
+    onViewRuleDetails: (ruleId: string) => void;
     onToggleActive: (rule: Rule) => void;
-    onEdit: (ruleId: string) => void;
+    onEditRule: (ruleId: string) => void;
 };
 
-const COLUMNS = ["Identifiant", "Libellé", "Semi-formel", "Criticité", "Statut", "Auteur", ""];
+const COLUMNS = ["Identifiant", "Auteur", "Libellé", "Formalisation", "Statut", "Criticité", "Actions"];
 
 /**
  * @summary Tableau des règles. Lignes alternées et cliquables ; l'état vide est géré.
@@ -17,9 +17,9 @@ const COLUMNS = ["Identifiant", "Libellé", "Semi-formel", "Criticité", "Statut
 export function RuleTable(
     {
         rules,
-        onOpen,
+        onViewRuleDetails,
         onToggleActive,
-        onEdit,
+        onEditRule,
     }: RuleTableProps): JSX.Element {
 
     if (rules.length === 0) {
@@ -31,19 +31,19 @@ export function RuleTable(
     }
 
     return (
-        <div className="overflow-hidden rounded-xl border border-border bg-background">
-            <table className="w-full border-collapse text-left">
+        <div className="overflow-hidden">
+            <table className="w-full border-separate border-spacing-y-2 text-center">
                 <thead>
-                <tr className="border-b border-border bg-primary/4">
-                    {COLUMNS.map((column, index) => (
-                        <th
-                            key={column || `col-${index}`}
-                            className={`px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground ${index === COLUMNS.length - 1 ? "text-right" : ""}`}
-                        >
-                            {column}
-                        </th>
-                    ))}
-                </tr>
+                    <tr className="bg-primary">
+                        {COLUMNS.map((column, index) => (
+                            <th
+                                key={column || `col-${index}`}
+                                className={`px-4 py-5 text-sm font-semibold uppercase text-primary-foreground ${index === 0 ? "rounded-l-lg" : index === COLUMNS.length -1 ? "rounded-r-lg" : "" }`}
+                            >
+                                {column}
+                            </th>
+                        ))}
+                    </tr>
                 </thead>
                 <tbody>
                 {rules.map((rule, index) => (
@@ -51,9 +51,9 @@ export function RuleTable(
                         key={rule.ruleId}
                         rule={rule}
                         zebra={index % 2 === 1}
-                        onOpen={onOpen}
+                        onOpen={onViewRuleDetails}
                         onToggleActive={onToggleActive}
-                        onEdit={onEdit}
+                        onEdit={onEditRule}
                     />
                 ))}
                 </tbody>

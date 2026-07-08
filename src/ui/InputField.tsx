@@ -19,7 +19,7 @@ export type InputFieldProps = {
 
 export default function InputField({id, name, label, placeholder, type = "text", icon, required = false, toggleVisibility = false, register, error}: InputFieldProps) {
 
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const inputType = toggleVisibility ? (showPassword ? "text" : "password") : type;
 
     return (

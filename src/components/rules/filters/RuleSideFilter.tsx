@@ -75,8 +75,7 @@ export function RuleSideFilters(
                         const active = filters.criticality === option.value;
                         const count =
                             option.value === "critique"
-                                ? countPerFilter.critique
-                                : option.value === "normal"
+                                ? countPerFilter.critique : option.value === "normal"
                                     ? countPerFilter.normal
                                     : countPerFilter.total;
                         return (

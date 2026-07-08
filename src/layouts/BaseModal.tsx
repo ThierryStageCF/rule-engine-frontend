@@ -16,7 +16,7 @@ export type BaseModalProps = {
 const SIZES: Record<ModalSize, string> = {
     sm: "max-w-sm",
     md: "max-w-md",
-    lg: "max-w-lg",
+    lg: "max-w-xl",
     xl: "max-w-2xl",
 };
 
@@ -43,7 +43,7 @@ export default function BaseModal(
             aria-labelledby="base-modal-title"
         >
             <div className="absolute inset-0 bg-primary/40 backdrop-blur-sm animate-fade-in-up" onClick={onClose} />
-            <div className={`relative z-10 flex max-h-[85vh] w-full ${SIZES[size]} flex-col rounded-2xl border border-border bg-base-color shadow-2xl shadow-primary/20 animate-fade-in-up`}>
+            <div className={`relative z-10 flex max-h-[90vh] w-full ${SIZES[size]} flex-col rounded-2xl border border-border bg-base-color shadow-2xl shadow-primary/20 animate-fade-in-up`}>
                 {/* En-tête fixe */}
                 <div className="relative flex flex-col items-center justify-center px-6 pt-6 pb-4 sm:px-7">
                     <button
@@ -63,7 +63,7 @@ export default function BaseModal(
                     {subtitle && <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">{subtitle}</p>}
                 </div>
                 {/* Corps scrollable */}
-                <div className="overflow-y-auto px-6 pb-6 sm:px-7">
+                <div className="overflow-y-auto px-10 pb-4 sm:px-7 mt-2">
                     {children}
                 </div>
             </div>

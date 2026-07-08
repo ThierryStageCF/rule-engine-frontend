@@ -19,5 +19,5 @@ export interface Rule {
     client?: string[];
     createdAt: string;
     lastUpdate?: string;
-    zone?: DomainZone;
+    zone: DomainZone;
 }

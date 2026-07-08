@@ -21,12 +21,14 @@ export function EvaluateModal({ open, onClose }: EvaluateModalProps) {
             icon={<ScanSearch className="size-5" />}
         >
             <form onSubmit={form.handleSubmit(actions.handleEvaluateArticle)}>
-                <InputField
-                    id="code_article"
-                    placeholder="ex. 0154685"
-                    register={form.register && form.register("codeArticle")}
-                    error={ form.errors?.codeArticle?.message}
-                />
+                <div className="mt-1">
+                    <InputField
+                        id="code_article"
+                        placeholder="ex. 0154685"
+                        register={form.register && form.register("codeArticle")}
+                        error={ form.errors?.codeArticle?.message}
+                    />
+                </div>
                 {/* Actions */}
                 <div className="mt-6 flex items-center justify-end gap-3">
                     <Button

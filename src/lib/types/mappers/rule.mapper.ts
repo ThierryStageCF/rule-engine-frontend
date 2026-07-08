@@ -27,6 +27,6 @@ function toRuleModel(dto: RuleDTO): Rule {
         client: dto.client ?? undefined,
         createdAt: dto.created_at,
         lastUpdate: dto.last_update ?? undefined,
-        zone: (dto.zone ?? undefined) as DomainZone | undefined,
+        zone: dto.zone  as DomainZone,
     };
 }

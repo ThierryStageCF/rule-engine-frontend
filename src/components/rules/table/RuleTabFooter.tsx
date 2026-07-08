@@ -33,17 +33,17 @@ export function RuleTableFooter(
         <div className="flex items-center justify-between gap-4 px-1 py-3 text-sm">
             {/* Gauche : par page */}
             <div className="flex flex-1 items-center gap-2 text-muted-foreground">
-                <span>Afficher</span>
+                <span className="font-medium">Afficher</span>
                 <select
                     value={pageSize}
                     onChange={(event) => onPageSizeChange(Number(event.target.value))}
-                    className="rounded-lg border border-input bg-background px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="rounded-lg border border-input bg-card px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     {PAGE_SIZES.map((size) => (
                         <option key={size} value={size}>{size}</option>
                     ))}
                 </select>
-                <span>par page</span>
+                <span className="font-medium">par page</span>
             </div>
 
             {/* Centre : pagination */}
@@ -90,7 +90,7 @@ export function RuleTableFooter(
             </div>
 
             {/* Droite : total */}
-            <div className="flex flex-1 justify-end text-muted-foreground">
+            <div className="flex flex-1 justify-end font-semibold">
                 {total} règle{total > 1 ? "s" : ""}
             </div>
         </div>

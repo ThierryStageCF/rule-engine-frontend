@@ -3,6 +3,8 @@ import { Pencil, Power, PowerOff } from "lucide-react";
 import type { Rule } from "../../../lib/types/models/rule.model.ts";
 import { CRITICALITY_BADGES } from "../../../lib/utils/constands.ts";
 import Badge from "../../../ui/Badge.tsx";
+import {Tooltip} from "antd";
+import Button from "../../../ui/Button.tsx";
 
 export type RuleRowProps = {
     rule: Rule;
@@ -29,54 +31,64 @@ export function RuleRow(
         <tr
             onClick={() => onOpen(rule.ruleId)}
             className={`
-                cursor-pointer border-b border-border transition-colors
-                ${zebra ? "bg-primary/3" : "bg-background"}
-                hover:bg-primary/[0.07]
+                cursor-pointer transition-colors
+                ${zebra ? "bg-blue-100" : "bg-base-color"}
             `}
         >
-            <td className="px-4 py-3 font-mono text-sm text-foreground">{rule.ruleId}</td>
+            <td className="rounded-l-lg text-center px-4 py-5  text-sm font-semibold text-blue-700">{rule.ruleId}</td>
 
-            <td className="px-4 py-3 text-sm text-foreground">{rule.sourceText ?? "—"}</td>
+            <td className=" text-center px-4 py-5 text-sm text-muted-foreground">{rule.author ?? "—"}</td>
 
-            <td className="px-4 py-3 max-w-xs truncate font-mono text-xs text-muted-foreground">
+            <td className="text-center  px-4 py-5 text-sm text-foreground">{rule.sourceText ?? "—"}</td>
+
+            <td className="text-left px-4 py-5 max-w-xs font-mono text-sm text-muted-foreground">
                 {rule.semiFormel}
             </td>
 
-            <td className="px-4 py-3">
-                <Badge {...CRITICALITY_BADGES[rule.criticality]} size="sm">
-                    {rule.criticality === "critique" ? "Critique" : "Normale"}
-                </Badge>
-            </td>
 
             <td className="px-4 py-3">
-                <Badge variant={rule.active ? "success" : "neutral"} shape="pill" size="sm">
+                <Badge
+                    variant={rule.active ? "success" : "neutral"}
+                    shape="pill"
+                    size="sm"
+                >
                     <span className={`size-1.5 rounded-full ${rule.active ? "bg-success" : "bg-muted-foreground"}`} />
                     {rule.active ? "Active" : "Inactive"}
                 </Badge>
             </td>
 
-            <td className="px-4 py-3 text-sm text-muted-foreground">{rule.author ?? "—"}</td>
+            <td className="px-4 py-3 ">
+                <Badge {...CRITICALITY_BADGES[rule.criticality]}
+                       size="sm"
+                >
+                    {rule.criticality === "critique" ? "Critique" : "Normale"}
+                </Badge>
+            </td>
 
-            <td className="px-4 py-3">
-                <div className="flex items-center justify-end gap-1">
-                    <button
-                        type="button"
-                        title="Modifier"
-                        onClick={(event) => { event.stopPropagation(); onEdit(rule.ruleId); }}
-                        className="rounded-md p-1.5 text-muted-foreground hover:bg-primary/10 hover:text-foreground"
-                    >
-                        <Pencil className="size-4" aria-hidden="true" />
-                    </button>
-                    <button
-                        type="button"
-                        title={rule.active ? "Désactiver" : "Activer"}
-                        onClick={(event) => { event.stopPropagation(); onToggleActive(rule); }}
-                        className={`rounded-md p-1.5 hover:bg-primary/10 ${rule.active ? "text-danger" : "text-success"}`}
-                    >
-                        {rule.active
-                            ? <PowerOff className="size-4" aria-hidden="true" />
-                            : <Power className="size-4" aria-hidden="true" />}
-                    </button>
+            <td className="px-4 py-3 rounded-r-lg">
+                <div className="flex items-center justify-ce gap-1">
+                    <Tooltip placement="top" title="Modifier">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            rounded="xl"
+                            onClick={(event) => { event.stopPropagation(); onEdit(rule.ruleId); }}
+                            icon={<Pencil className="size-4" aria-hidden="true" />}
+
+                        />
+                    </Tooltip>
+                    <Tooltip placement="right" title={rule.active ? "Désactiver" : "Activer"}>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            rounded="xl"
+                            onClick={(event) => { event.stopPropagation(); onToggleActive(rule); }}
+                            icon={rule.active  ? <PowerOff className="size-4 text-danger" aria-hidden="true" />
+                                : <Power className="size-4 text-success" aria-hidden="true" />
+                            }
+
+                        />
+                    </Tooltip>
                 </div>
             </td>
         </tr>
