@@ -4,14 +4,15 @@ import type {RuleServerFiltersFormType} from "../../types/schema/ruleServerFilte
 import type {RuleLocalFilters} from "../../types/presentation/rule.model.presentation.ts";
 import {DEFAULT_RULES_FILTERS} from "../../utils/constands.ts";
 import type {ErrorResponse, ResponseEntity} from "../../types/entities/response.entity.ts";
-import {normalizeRuleFilters, useAllRulesQuery, useSearchRulesQuery} from "../../queries/useRulesQuery.ts";
-import {buildRuleCounts, filterRulesLocally, sortRules} from "../../builder/ruleList.builder.ts";
-
-
-
-
-
-
+import {
+    normalizeRuleFilters,
+    useAllRulesQuery,
+    useSearchRulesQuery,
+    useUpdateRuleMutation
+} from "../../queries/useRulesQuery.ts";
+import {buildRuleCounts, filterRulesLocally, sortRulesByZone} from "../../builder/ruleList.builder.ts";
+import {useNavigation} from "../../../router/useNavigation.ts";
+import type {Rule} from "../../types/models/rule.model.ts";
 
 /**
  * @summary Logique UI de la page de liste des règles : bascule liste complète /
@@ -19,16 +20,15 @@ import {buildRuleCounts, filterRulesLocally, sortRules} from "../../builder/rule
  */
 export function useRulesPage() {
 
-
     /* Filtres serveur et locaux appliqués */
     const [localFilters, setLocalFilters] = useState<RuleLocalFilters>(DEFAULT_RULES_FILTERS);
-    const [appliedFilters, setAppliedFilters] = useState<RuleServerFiltersFormType>({});
-    const isSearching = Object.keys(normalizeRuleFilters(appliedFilters)).length > 0;
-
+    const [appliedServerFilters, setAppliedFilters] = useState<RuleServerFiltersFormType>({});
+    const activeServerFilterCount = Object.keys(normalizeRuleFilters({ ...appliedServerFilters, text: undefined })).length;
+    const isSearching = Object.keys(normalizeRuleFilters(appliedServerFilters)).length > 0;
 
     /* Une seule query active à la fois, via enabled opposé. */
     const allRulesQuery = useAllRulesQuery(!isSearching);
-    const searchRulesQuery = useSearchRulesQuery(appliedFilters ?? {}, isSearching);
+    const searchRulesQuery = useSearchRulesQuery(appliedServerFilters ?? {}, isSearching);
     const activeQuery = isSearching ? searchRulesQuery : allRulesQuery;
     const rules = useMemo(()=> activeQuery.data ?? [], [activeQuery.data]);
 
@@ -38,18 +38,15 @@ export function useRulesPage() {
         errors = errorData.errors;
     }
 
-    /* Compteurs de filtres locaux (zone et criticité) */
+    /* Compteurs de filtres locaux (zone et criticité) et liste filtrée */
     const counts = useMemo(() => buildRuleCounts(rules), [rules]);
-    /* Liste affinée localement puis ordonnée. */
     const filteredRules = useMemo(
-        () => sortRules(filterRulesLocally(rules, localFilters)),
+        () => sortRulesByZone(filterRulesLocally(rules, localFilters)),
         [rules, localFilters],
     );
 
-
-
     /* Découpe de la page courante + pagination */
-    const [pageSize, setPageSize] = useState<number>(20);
+    const [pageSize, setPageSize] = useState<number>(10);
     const [page, setPage] = useState<number>(1);
     const total = filteredRules.length;
     const pageCount = Math.max(1, Math.ceil(total / pageSize));
@@ -59,13 +56,13 @@ export function useRulesPage() {
         [filteredRules, currentPage, pageSize],
     );
 
-    /* Entonnoir : remplace les champs structurés, conserve le texte de recherche. */
+    /* Gestion des filtres serveurs */
     function handleSubmitFilter(data: RuleServerFiltersFormType) {
-        setAppliedFilters((prev) => ({ ...data, text: prev.text }));
+        setAppliedFilters(data);
         setPage(1);
     }
 
-    /* Barre de recherche : met à jour le seul champ texte, conserve le reste. */
+    /* Filtre par texte */
     function handleSearch(text: string) {
         setAppliedFilters({
             text: text
@@ -78,14 +75,29 @@ export function useRulesPage() {
         await activeQuery.refetch();
     }
 
-    /* Nombre de filtres serveur actifs, hors texte (pour le badge du bouton). */
-    const activeFilterCount = Object.keys(normalizeRuleFilters({ ...appliedFilters, text: undefined })).length;
-
+    /* Fonction d'activation, désactivation des règles. */
+    const {mutate, isPending} = useUpdateRuleMutation();
+    const navigate = useNavigation();
+    async function toggleRuleActive(rule: Rule) {
+        mutate(
+            {
+                ruleId: rule.id,
+                rule: {
+                    active: !rule.active,
+                },
+            },
+            {
+                onSuccess: () => {
+                    navigate.reload();
+                },
+            },
+        );
+    }
 
     return {
         ui: {
             localFilters,
-            appliedFilters,
+            appliedFilters: appliedServerFilters,
             isSearching,
             isLoading: activeQuery.isLoading,
             isError: activeQuery.isError,
@@ -94,7 +106,8 @@ export function useRulesPage() {
             pageSize,
             pageCount,
             total,
-            activeFilterCount
+            activeServerFilterCount,
+            isPending
         },
         data: {
             rules: pagedRules,
@@ -109,6 +122,7 @@ export function useRulesPage() {
             setPageSize,
             setPage,
             refetch: activeQuery.refetch,
+            toggleRuleActive,
         },
     };
 }

@@ -18,7 +18,7 @@ export const sampleEvaluation: EvaluationResultModel = {
             rules: [
                 {
                     ruleId: "R-CA0001",
-                    ruleLabel: "Poids article renseigné pour la famille 007",
+                    ruleTitle: "Poids article renseigné pour la famille 007",
                     verdict: "FAIL",
                     criticality: "normal",
                     semiFormel: 'SI famille_article = "007" ALORS poids_article > 0',
@@ -42,7 +42,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-OP0001",
-                    ruleLabel: "Présence d'une fit BC",
+                    ruleTitle: "Présence d'une fit BC",
                     verdict: "FAIL",
                     criticality: "critique",
                     semiFormel:
@@ -67,7 +67,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-AR0001",
-                    ruleLabel: "Pas de polissage vibrant après une opération de frappe",
+                    ruleTitle: "Pas de polissage vibrant après une opération de frappe",
                     verdict: "FAIL",
                     criticality: "critique",
                     semiFormel:
@@ -92,7 +92,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-CA0011",
-                    ruleLabel: "Temps d'immobilisation cumulé sur la ressource S07",
+                    ruleTitle: "Temps d'immobilisation cumulé sur la ressource S07",
                     verdict: "FAIL",
                     criticality: "normal",
                     semiFormel:
@@ -117,7 +117,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-GA0002",
-                    ruleLabel:
+                    ruleTitle:
                         "Présence d'une opération de gravure sur toutes les gammes",
                     verdict: "FAIL",
                     criticality: "critique",
@@ -145,7 +145,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-CA0003",
-                    ruleLabel: "Matière principale renseignée",
+                    ruleTitle: "Matière principale renseignée",
                     verdict: "PASS",
                     criticality: "normal",
                     semiFormel: "matiere_principale EST RENSEIGNE",
@@ -158,7 +158,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-OP0010",
-                    ruleLabel: "Opération de contrôle final présente",
+                    ruleTitle: "Opération de contrôle final présente",
                     verdict: "PASS",
                     criticality: "critique",
                     semiFormel:
@@ -173,7 +173,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-GA0007",
-                    ruleLabel: "Gravure du logo dispensée pour la famille 000",
+                    ruleTitle: "Gravure du logo dispensée pour la famille 000",
                     verdict: "PASS",
                     criticality: "critique",
                     semiFormel:
@@ -190,7 +190,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-CL0003",
-                    ruleLabel: "Délai de livraison pour le client X",
+                    ruleTitle: "Délai de livraison pour le client X",
                     verdict: "INCOMPLETE",
                     criticality: "normal",
                     semiFormel: 'SI client = "X" ALORS delai_livraison < 30',
@@ -221,7 +221,7 @@ export const sampleEvaluation: EvaluationResultModel = {
             rules: [
                 {
                     ruleId: "R-OP0006",
-                    ruleLabel: "Durée renseignée sur toutes les opérations",
+                    ruleTitle: "Durée renseignée sur toutes les opérations",
                     verdict: "FAIL",
                     criticality: "normal",
                     semiFormel: "TOUTES LES operations DOIVENT AVOIR duree EST RENSEIGNE",
@@ -259,7 +259,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-OP0006b",
-                    ruleLabel: "Opération de contrôle juste après la ressource 501",
+                    ruleTitle: "Opération de contrôle juste après la ressource 501",
                     verdict: "FAIL",
                     criticality: "normal",
                     semiFormel:
@@ -284,7 +284,7 @@ export const sampleEvaluation: EvaluationResultModel = {
                 },
                 {
                     ruleId: "R-CA0002",
-                    ruleLabel: "Diamètre nominal renseigné",
+                    ruleTitle: "Diamètre nominal renseigné",
                     verdict: "PASS",
                     criticality: "normal",
                     semiFormel: "diametre_nominal > 0",

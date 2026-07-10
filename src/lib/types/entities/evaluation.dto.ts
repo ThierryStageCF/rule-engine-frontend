@@ -16,7 +16,7 @@ export type EvaluatedArticleDTO = {
 export type RuleDTO = {
     rule_id: string;
     verdict: string;
-    rule_label?: string;
+    rule_title?: string;
     criticality: string;
     semi_formel: string;
     source_text: string;

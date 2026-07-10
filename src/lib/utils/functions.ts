@@ -7,3 +7,7 @@ export function zoneCount(zones: ZoneResults[]): number {
     return zones.reduce((s, z) => s + z.results.length, 0)
 }
 
+export function isEmpty(object: object): boolean {
+    return Object.keys(object).length === 0;
+}
+

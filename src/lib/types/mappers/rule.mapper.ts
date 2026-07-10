@@ -14,11 +14,13 @@ export function toRuleModelList(dto: SearchRuleDTO): Rule[] {
 /**
  * RULE
  */
-function toRuleModel(dto: RuleDTO): Rule {
+export function toRuleModel(dto: RuleDTO): Rule {
     return {
-        ruleId: dto.rule_id,
+        id: dto.rule_id,
         version: dto.version,
         active: dto.active,
+        title: dto.rule_title,
+        applyToFinishedProductOnly: dto.finished_product_only,
         criticality: dto.criticality.toLowerCase() as Criticality,
         semiFormel: dto.semi_formal,
         sourceText: dto.source_text ?? undefined,

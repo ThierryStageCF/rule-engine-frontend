@@ -1,7 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { toRuleModelList } from "../types/mappers/rule.mapper.ts";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {toRuleModel, toRuleModelList} from "../types/mappers/rule.mapper.ts";
 import type { RuleServerFiltersFormType } from "../types/schema/ruleServerFiltersSchema.ts";
 import {RuleService} from "../services/rule.service.ts";
+import type {RuleUpdateFormType} from "../types/schema/ruleUpdateSchema.ts";
+import type {Rule} from "../types/models/rule.model.ts";
 
 /**
  * Normalise les filtres : écarte les champs vides (chaînes vides, undefined,
@@ -23,6 +25,9 @@ export function normalizeRuleFilters(filters?: RuleServerFiltersFormType): Parti
     return clean;
 }
 
+/** Objet qui permet de construire la clé de cache pour une requête de lecture d'une règle avec ou sans filtre serveur
+ *  Garantit que deux requêtes aux paramètres identiques ont toujours la même la clé de cache.
+ */
 export const rulesKey = {
     root: ["rules"] as const,
     all: () => ["rules", "all"] as const,
@@ -30,7 +35,7 @@ export const rulesKey = {
 };
 
 /**
- * Liste de toutes les règles (route getAllRules), sans filtre serveur.
+ * Hook dérivé de UseQuery permettant de lister toutes les règles métier.
  */
 export function useAllRulesQuery(enabled: boolean = true) {
     return useQuery({
@@ -42,7 +47,7 @@ export function useAllRulesQuery(enabled: boolean = true) {
 }
 
 /**
- * Recherche filtrée des règles (route searchRules).
+ * Hook dérivé de UseQuery permettant la recherche filtrée des règles.
  */
 export function useSearchRulesQuery(filters: RuleServerFiltersFormType, enabled: boolean = true) {
     return useQuery({
@@ -50,5 +55,22 @@ export function useSearchRulesQuery(filters: RuleServerFiltersFormType, enabled:
         queryFn: () => RuleService.getFilteredRules(normalizeRuleFilters(filters)),
         select: (response) => toRuleModelList(response.data),
         enabled,
+    });
+}
+
+
+/**
+ * Hook dérivé de UseMutation permettant la mise à jour d'une règle métier
+ */
+export function useUpdateRuleMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async ({ ruleId, rule }: { ruleId: string; rule: RuleUpdateFormType }): Promise<Rule> => {
+            const response = await RuleService.updateRule(ruleId, rule);
+            return toRuleModel(response.data);
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: rulesKey.root });
+        },
     });
 }

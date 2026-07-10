@@ -5,8 +5,8 @@ import { ZONE_ORDER } from "../utils/constands.ts";
 
 /**
  * @summary Calcule les compteurs des filtres locaux à partir de la liste chargée.
- * Les compteurs reflètent l'ensemble chargé (avant filtre local), pour que les
- * cartes de gauche indiquent combien de règles existent dans chaque zone.
+ * Les compteurs reflètent l'ensemble chargé depuis le serveur, afin que les
+ * cartes de filtres locaux affichent combien de règles existent dans chaque zone et pour chaque criticité.
  * @param rules Liste plate des règles chargées
  */
 export function buildRuleCounts(rules: Rule[]): RuleCounts {
@@ -35,20 +35,19 @@ export function buildRuleCounts(rules: Rule[]): RuleCounts {
 }
 
 /**
- * @summary Ordonne les règles de façon déterministe : par ordre canonique de zone,
- * puis par identifiant. Donne un tableau stable indépendamment de l'ordre backend.
+ * @summary Ordonne les règles, par ordre canonique de zone,
+ * puis par identifiant.
  * @param rules Liste à ordonner
  */
-export function sortRules(rules: Rule[]): Rule[] {
+export function sortRulesByZone(rules: Rule[]): Rule[] {
     const rank = (zone: DomainZone): number => ZONE_ORDER.indexOf(zone);
     return [...rules].sort(
-        (a, b) => rank(a.zone) - rank(b.zone) || a.ruleId.localeCompare(b.ruleId),
+        (a, b) => rank(a.zone) - rank(b.zone) || a.id.localeCompare(b.id),
     );
 }
 
 /**
  * @summary Applique les filtres locaux (zone, criticité) à la liste déjà chargée,
- * sans appel réseau. Sélection unique par axe, "all" désactivant l'axe.
  * @param rules Liste chargée
  * @param filters Filtres locaux courants
  */
@@ -58,7 +57,6 @@ export function filterRulesLocally(rules: Rule[], filters: RuleLocalFilters): Ru
 
 /**
  * @summary Prédicat : une règle, satisfait-elle les filtres locaux courants.
- * Zones : si aucune sélectionnée, l'axe est inactif ; sinon appartenance.
  */
 function matchesLocal(rule: Rule, filters: RuleLocalFilters): boolean {
     if (filters.zones.length > 0 && (!filters.zones.includes(rule.zone))) {

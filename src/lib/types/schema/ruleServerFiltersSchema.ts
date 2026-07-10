@@ -1,10 +1,7 @@
 import { z } from 'zod';
 
 /**
- * Schéma du formulaire de filtres serveur des règles (menu entonnoir).
- * Les enums portent les valeurs exactes attendues par le backend :
- * les zones, et la criticité dans sa casse d'origine (critique, Normal).
- * À l'ajout d'une criticité côté backend, l'étendre ici.
+ * Schéma du formulaire de filtres serveur des règles.
  */
 export const ruleServerFiltersSchema = z.object({
     zone: z

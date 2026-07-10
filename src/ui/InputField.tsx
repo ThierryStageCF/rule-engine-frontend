@@ -13,11 +13,12 @@ export type InputFieldProps = {
     toggleVisibility?: boolean;
     register?: UseFormRegisterReturn;
     error?: string;
+    readonly?: boolean;
 };
 
 
 
-export default function InputField({id, name, label, placeholder, type = "text", icon, required = false, toggleVisibility = false, register, error}: InputFieldProps) {
+export default function InputField({id, name, label, placeholder, type = "text", icon, required = false, toggleVisibility = false, register, error, readonly= false}: InputFieldProps) {
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const inputType = toggleVisibility ? (showPassword ? "text" : "password") : type;
@@ -25,7 +26,7 @@ export default function InputField({id, name, label, placeholder, type = "text",
     return (
         <div>
             {label && (
-                <label htmlFor={id} className="block text-sm font-medium text-muted-foreground mb-2">
+                <label htmlFor={id} className="block text-sm font-medium text-primary mb-2">
                     {label}
                 </label>
             )}
@@ -40,7 +41,8 @@ export default function InputField({id, name, label, placeholder, type = "text",
                     name={name}
                     type={inputType}
                     placeholder={placeholder}
-                    className={`${icon ? 'pl-10' : 'pl-3'}  ${toggleVisibility ? "pr-10" : ""} w-full px-4 py-3 border ${error ? "border-error" : "border-input"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-error" : "focus:ring-blue-500"}`}
+                    readOnly={readonly}
+                    className={`${icon ? 'pl-10' : 'pl-3'}  ${toggleVisibility ? "pr-10" : ""} w-full px-4 py-3 border ${error ? "border-error" : "border-input"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-error" : "focus:ring-blue-500"} placeholder:italic bg-card`}
                     required={required}
                     {...register}
                 />

@@ -22,7 +22,7 @@ export interface EvaluatedArticle {
  */
 export interface RuleResult {
     ruleId: string;
-    ruleLabel?: string;
+    ruleTitle?: string;
     verdict: Verdict;
     criticality: Criticality;
     semiFormel: string;

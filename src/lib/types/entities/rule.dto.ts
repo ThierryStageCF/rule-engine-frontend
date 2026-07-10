@@ -2,21 +2,24 @@
  *  Réponses renvoyées par le backend pour la gestion des règles métier.
  */
 
+import type {Criticality, DomainZone} from "../models/evaluationResult.model.ts";
 
 /** Une règle telle que sérialisée par le backend (SearchResultResponse). */
 export type RuleDTO = {
     rule_id: string;
+    rule_title?: string;
+    author?: string;
     version: number;
     active: boolean;
-    criticality: string;
+    finished_product_only: boolean
+    criticality: Criticality;
+    zone?: DomainZone;
     semi_formal: string;
     source_text?: string | null;
-    author?: string | null;
-    sector?: string | null;
-    client?: string[] | null;
-    created_at: string;
-    last_update?: string | null;
-    zone?: string | null;
+    sector?: string;
+    client?: string[];
+    created_at: Date;
+    last_update?: Date;
 };
 
 /**

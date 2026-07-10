@@ -2,7 +2,7 @@ import { useState, type JSX } from "react";
 import { Filter, Search } from "lucide-react";
 import type { RuleServerFiltersFormType } from "../../../lib/types/schema/ruleServerFiltersSchema.ts";
 import Button from "../../../ui/Button.tsx";
-import {RuleServerFilterMenu} from "./RuleServerFilterMenu.tsx";
+import {RuleServerFilterModal} from "./RuleServerFilterModal.tsx";
 
 
 export type RuleSearchBarProps = {
@@ -55,7 +55,7 @@ export function RuleSearchBar(
                 )}
             </div>
 
-            <RuleServerFilterMenu
+            <RuleServerFilterModal
                 open={open}
                 onClose={() => setOpen(false)}
                 onApplyFilters={onApplyFilters}

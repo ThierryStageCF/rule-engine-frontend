@@ -16,7 +16,7 @@ export default function RuleHeader({ rule }: { rule: RuleResult }): JSX.Element 
             <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
                     <span className="font-mono text-md font-semibold text-brand-accent text-pretty ">
-                        {rule.ruleId}  {rule.ruleLabel && (" - " + rule.ruleLabel)}
+                        {rule.ruleId}  {rule.ruleTitle && (" - " + rule.ruleTitle)}
                      </span>
                 </div>
             </div>

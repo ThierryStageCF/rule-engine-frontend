@@ -7,16 +7,15 @@ import { ruleServerFiltersSchema, type RuleServerFiltersFormType } from "../../t
  * @summary Formulaire des filtres serveur (menu entonnoir). Valide via Zod, puis
  * remonte les filtres validés à onApply (le handleSubmitFilter du hook de page).
  */
-export function useRuleFilterForm(onApply: (filters: RuleServerFiltersFormType) => void, onClear: () => void,) {
+export function useRuleServerFilterForm(onClear: () => void,) {
 
-    const { register, handleSubmit, control, reset, formState: { errors } } =
-        useForm<RuleServerFiltersFormType>({
+   const filterForm = useForm<RuleServerFiltersFormType>({
             resolver: zodResolver(ruleServerFiltersSchema),
             defaultValues: {},
         });
 
     function handleClear() {
-        reset({
+        filterForm.reset({
             zone: "",
             criticality: ""
         });
@@ -24,15 +23,11 @@ export function useRuleFilterForm(onApply: (filters: RuleServerFiltersFormType) 
     }
 
     return {
-        filterForm: {
-            register,
-            handleSubmit,
-            control,
-            reset,
-            errors
+        filterForm:{
+            ...filterForm,
+            errors : filterForm.formState.errors,
         },
         actions: {
-            onApply,
             handleClear
         },
     };

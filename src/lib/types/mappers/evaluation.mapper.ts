@@ -41,7 +41,7 @@ function mapArticle(dto: EvaluatedArticleDTO): EvaluatedArticle {
 function mapRule(dto: RuleDTO): RuleResult {
     return {
         ruleId: dto.rule_id,
-        ruleLabel: dto.rule_label,
+        ruleTitle: dto.rule_title,
         verdict: dto.verdict as Verdict,
         criticality: dto.criticality as Criticality,
         semiFormel: dto.semi_formel,

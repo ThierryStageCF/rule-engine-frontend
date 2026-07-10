@@ -1,6 +1,10 @@
 import {useNavigate} from "react-router-dom";
 import {AppRouterPaths} from "./appRouterPaths.ts";
+import type {Rule} from "../lib/types/models/rule.model.ts";
 
+/**
+ * Hook custom, chargé de la gestion de la navigation au sein de l'application de façon centralisée.
+ */
 export function useNavigation() {
 
     const navigate = useNavigate();
@@ -18,8 +22,10 @@ export function useNavigation() {
         toEvaluationResultPage: (codeArticle: string, state?: object)=> navigateWithState("/evaluation-result" , codeArticle, state),
         toRulePage: ()=> navigateWithState(AppRouterPaths.rulePage),
         toDocumentationPage:  ()=> navigateWithState(AppRouterPaths.documentationPage),
-        toRuleDetailsPage: (ruleId: string)=> navigateWithState("/rule/details", ruleId),
+        toRuleDetailsPage: (ruleId: string, rule?: Rule)=> navigateWithState("/rule/details", ruleId, rule),
         toNewRulePage: ()=> navigate(AppRouterPaths.addRulePage),
-        toUpdateRulePage: (ruleId: string)=> navigateWithState("/rule/details", ruleId),
+        toUpdateRulePage: (ruleId: string, rule?: Rule)=> navigateWithState("/rule/details", ruleId, rule),
+        back: ()=> navigate(-1),
+        reload: ()=> window.location.reload(),
     }
 }

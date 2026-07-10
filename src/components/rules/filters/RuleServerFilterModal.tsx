@@ -2,14 +2,14 @@ import type { JSX } from "react";
 import { Controller } from "react-hook-form";
 import { Filter } from "lucide-react";
 import type { RuleServerFiltersFormType } from "../../../lib/types/schema/ruleServerFiltersSchema.ts";
-import {PURE_CRITICALITY_OPTIONS, ZONE_LABELS} from "../../../lib/utils/constands.ts";
-import { useRuleFilterForm } from "../../../lib/hooks/rules/useRuleFilterForm.ts";
+import {PURE_CRITICALITY_OPTIONS, ZONES_OPTIONS} from "../../../lib/utils/constands.ts";
+import { useRuleServerFilterForm } from "../../../lib/hooks/rules/useRuleServerFilterForm.ts";
 import BaseModal from "../../../layouts/BaseModal.tsx";
 import InputField from "../../../ui/InputField.tsx";
 import ListItem from "../../../ui/ListItem.tsx";
 import Button from "../../../ui/Button.tsx";
-import SelectField, {type SelectOption} from "../../../ui/SelectField.tsx";
-import type {DomainZone} from "../../../lib/types/models/evaluationResult.model.ts";
+import SelectField from "../../../ui/SelectField.tsx";
+
 
 export type RuleServerFilterModalProps = {
     open: boolean;
@@ -21,7 +21,7 @@ export type RuleServerFilterModalProps = {
 /**
  * @summary Modale permettant d'adresser une requête de filtre directement au serveur backend
  */
-export function RuleServerFilterMenu(
+export function RuleServerFilterModal(
     {
         open,
         onClose,
@@ -31,22 +31,12 @@ export function RuleServerFilterMenu(
 
 
 
-    const { filterForm, actions } = useRuleFilterForm(
-        (filters) => {
+    const { filterForm, actions } = useRuleServerFilterForm(() => { onClear();  });
+    const onApply = (filters: RuleServerFiltersFormType) => {
             onApplyFilters(filters);
             onClose();
-        },
-        () => { onClear();  },
-    );
+        };
 
-
-    const zonesOptions: SelectOption[] = (Object.entries(ZONE_LABELS) as [DomainZone, string][])
-        .map(([key, value]) => (
-            {
-                label: value,
-                value: key,
-            }
-        ));
 
     return (
         <BaseModal
@@ -57,13 +47,13 @@ export function RuleServerFilterMenu(
             icon={<Filter className="size-5" />}
             size="xl"
         >
-            <form onSubmit={filterForm.handleSubmit(actions.onApply)} className="flex flex-col gap-4 px-4 pb-2">
+            <form onSubmit={filterForm.handleSubmit(onApply)} className="flex flex-col gap-4 px-4 pb-2">
                 {/* Selection d'une zone métier */}
                 <div className="flex flex-col gap-2">
                     <legend className="text-sm font-bold uppercase text-primary">Zone</legend>
                     <SelectField
                         id="zone-id"
-                        options={zonesOptions}
+                        options={ZONES_OPTIONS}
                         register={filterForm.register("zone")}
                         error={filterForm.errors?.zone?.message}
                     />

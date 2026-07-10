@@ -47,7 +47,7 @@ function toGlobalError(error: Error): GlobalError | null {
     /* Capture des erreurs HTTP */
     if(isHTTPError(error)){
         const status = error.response.status;
-        if(status>500){
+        if(status>=500){
             if(status === 503){
                 return {
                     status: status,
@@ -64,13 +64,13 @@ function toGlobalError(error: Error): GlobalError | null {
         return null;
     }
     /* Capture des erreurs de timeout et de connexion internet. */
-    if(isTimeoutError(error)){
+    else if(isTimeoutError(error)){
         return {
             title: "Délai dépassé !",
             message: "Le serveur met trop de temps à répondre. Vérifiez votre connexion."
         }
     }
-    if (isNetworkError(error)) {
+    else if (isNetworkError(error)) {
         return {
             title: "Pas de connexion internet",
             message: "Impossible de joindre le serveur. Vérifiez votre connexion internet."

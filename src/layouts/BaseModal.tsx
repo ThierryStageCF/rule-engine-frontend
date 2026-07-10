@@ -1,10 +1,10 @@
-import type { JSX } from "react";
+import {type JSX} from "react";
 import { X } from "lucide-react";
 
 type ModalSize = "sm" | "md" | "lg" | "xl";
 
 export type BaseModalProps = {
-    open: boolean;
+    open: boolean|null;
     onClose: () => void;
     children: JSX.Element;
     title: string;
@@ -34,6 +34,8 @@ export default function BaseModal(
         size = "md",
     }: BaseModalProps): JSX.Element | null {
 
+
+
     if (!open) return null;
     return (
         <div
@@ -48,7 +50,7 @@ export default function BaseModal(
                 <div className="relative flex flex-col items-center justify-center px-6 pt-6 pb-4 sm:px-7">
                     <button
                         type="button"
-                        onClick={onClose}
+                        onClick={()=> onClose()}
                         aria-label="Fermer"
                         className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full bg-red-100 text-red-500 transition-colors hover:bg-red-200 hover:text-red-800 duration-200 cursor-pointer"
                     >

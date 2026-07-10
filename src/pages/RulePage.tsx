@@ -5,13 +5,15 @@ import { RuleSearchBar } from "../components/rules/filters/RuleSearchBar.tsx";
 import { RuleTable } from "../components/rules/table/RuleTable.tsx";
 import LoadingPage from "./LoadingPage.tsx";
 import Button from "../ui/Button.tsx";
-import type { Rule } from "../lib/types/models/rule.model.ts";
 import {RuleSideFilters} from "../components/rules/filters/RuleSideFilter.tsx";
 import {RuleTableFooter} from "../components/rules/table/RuleTabFooter.tsx";
 import {useRulesPage} from "../lib/hooks/rules/useRulePage.ts";
 import {useNavigation} from "../router/useNavigation.ts";
+import DataLoader from "../ui/DataLoader.tsx";
 
-
+/**
+ * Composant fonctionnel qui affichage la liste des règles métier enregistrés en base de données.
+ */
 function RulePage(): JSX.Element {
     const navigate = useNavigation();
     const { ui, data, actions } = useRulesPage();
@@ -23,7 +25,6 @@ function RulePage(): JSX.Element {
         />;
     }
 
-    const toggleActive = (rule: Rule) =>  {console.log(rule)}; // placeholder branché plus tard
 
     return (
         <div className="min-h-screen bg-background">
@@ -65,12 +66,12 @@ function RulePage(): JSX.Element {
                            onSearch={actions.handleSearch}
                            onApplyFilters={actions.handleSubmitFilter}
                            onClearFilters={actions.clearServerFilters}
-                           activeFilterCount={ui.activeFilterCount}
+                           activeFilterCount={ui.activeServerFilterCount}
                        />
                        <RuleTable
                            rules={data.rules}
                            onViewRuleDetails={navigate.toRuleDetailsPage}
-                           onToggleActive={toggleActive}
+                           onToggleActive={actions.toggleRuleActive}
                            onEditRule={navigate.toUpdateRulePage}
                        />
                        <RuleTableFooter
@@ -84,7 +85,7 @@ function RulePage(): JSX.Element {
                    </section>
                </main>
             </div>
-
+            <DataLoader isLoading={ui.isPending}/>
         </div>
     );
 }

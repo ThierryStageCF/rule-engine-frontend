@@ -24,7 +24,7 @@ export default function SelectField({id, name, label, selectLabel, options, requ
     return (
         <div>
             {label &&
-                <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor={id} className="block text-sm font-medium text-primary mb-2">
                     {label}
                 </label>
             }

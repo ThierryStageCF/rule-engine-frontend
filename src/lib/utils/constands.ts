@@ -9,6 +9,7 @@ import {
 import type {CriticalityFilter, EvaluationResultFilters} from "../types/presentation/evaluation.model.presentation.ts";
 import type {BadgeProps} from "../../ui/Badge.tsx";
 import type {RuleLocalFilters} from "../types/presentation/rule.model.presentation.ts";
+import type {SelectOption} from "../../ui/SelectField.tsx";
 
 
 
@@ -106,6 +107,15 @@ export const PURE_CRITICALITY_OPTIONS: { value:Criticality; label: string }[] = 
         label: "Normales"
     },
 ]
+
+
+export const ZONES_OPTIONS: SelectOption[] = (Object.entries(ZONE_LABELS) as [DomainZone, string][])
+    .map(([key, value]) => (
+        {
+            label: value,
+            value: key,
+        }
+    ));
 
 
 export const VERDICT_BADGES: Record<Verdict,  Omit<BadgeProps, "children">> = {
