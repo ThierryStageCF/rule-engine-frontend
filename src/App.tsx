@@ -6,7 +6,6 @@ import {queryClient} from "./lib/api/queryClient.ts";
 import {GlobalErrorModal} from "./components/modals/GlobalErrorModal.tsx";
 
 function App(): JSX.Element {
-
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
@@ -18,5 +17,4 @@ function App(): JSX.Element {
         </QueryClientProvider>
     )
 }
-
 export default App;

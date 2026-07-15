@@ -10,6 +10,9 @@ import {RuleTableFooter} from "../components/rules/table/RuleTabFooter.tsx";
 import {useRulesPage} from "../lib/hooks/rules/useRulePage.ts";
 import {useNavigation} from "../router/useNavigation.ts";
 import DataLoader from "../ui/DataLoader.tsx";
+import BaseModal from "../layouts/BaseModal.tsx";
+import SuccessModal from "../components/modals/SuccessModal.tsx";
+import ConfirmModal from "../components/modals/ConfirmModal.tsx";
 
 /**
  * Composant fonctionnel qui affichage la liste des règles métier enregistrés en base de données.
@@ -24,7 +27,6 @@ function RulePage(): JSX.Element {
             message="Chargement des règles de contrôle qualité"
         />;
     }
-
 
     return (
         <div className="min-h-screen bg-background">
@@ -71,7 +73,7 @@ function RulePage(): JSX.Element {
                        <RuleTable
                            rules={data.rules}
                            onViewRuleDetails={navigate.toRuleDetailsPage}
-                           onToggleActive={actions.toggleRuleActive}
+                           onToggleActive={actions.requestToggleRuleActive}
                            onEditRule={navigate.toUpdateRulePage}
                        />
                        <RuleTableFooter
@@ -85,6 +87,34 @@ function RulePage(): JSX.Element {
                    </section>
                </main>
             </div>
+            <ConfirmModal
+                open={ui.ruleToToggle !== null}
+                title={ui.ruleToToggle?.active ? "Désactiver la règle" : "Activer la règle"}
+                message={
+                    ui.ruleToToggle
+                        ? `Voulez-vous vraiment ${ui.ruleToToggle.active ? "désactiver" : "activer"} la règle ${ui.ruleToToggle.id} ?`
+                        : ""
+                }
+                confirmLabel={ui.ruleToToggle?.active ? "Désactiver" : "Activer"}
+                onConfirm={actions.confirmToggleRuleActive}
+                onClose={actions.cancelToggleRuleActive}
+            />
+            <SuccessModal
+                open={ui.toggleSuccessMessage !== null}
+                message={ui.toggleSuccessMessage ?? ""}
+                onClose={() => actions.setToggleSuccessMessage(null)}
+            />
+            <BaseModal
+                open={ui.canOpenToggleErrorModal}
+                title="Erreurs"
+                onClose={() => actions.setCanOpenToggleErrorModal(false)}
+            >
+                <div className="flex flex-col justify-center items-center py-5 px-4">
+                    {data.toggleErrors.map((error, index) => (
+                        <p key={index}>{error.message}</p>
+                    ))}
+                </div>
+            </BaseModal>
             <DataLoader isLoading={ui.isPending}/>
         </div>
     );

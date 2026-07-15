@@ -52,26 +52,31 @@ export function useRuleDetailsPage(){
         });
 
 
+    /* Retours utilisateur : succès de mise à jour, avertissement si aucune modification. */
+    const [canOpenSuccessModal, setCanOpenSuccessModal] = useState(false);
+    const [canOpenNoChangeModal, setCanOpenNoChangeModal] = useState(false);
+
     function submitUpdates(data: RuleUpdateDisplayFormType){
-        console.log(data)
         const diffs = buildRuleDiffs(rule, data);
-        if(diffs) {
-            const dataToSend = toRuleUpdateFormType(diffs);
-            console.log("datatosend", dataToSend);
-            mutate({ruleId: rule.id, rule: dataToSend}, {
-                onSuccess: data => {
-                    setRule(data);
-                    form.setValues(data);
-                },
-                onError: (error) => {
-                    if (isHTTPError(error)) {
-                        const err = error.data as ResponseEntity<null>;
-                        setErrors(err.errors);
-                        setCanOpenErrorModal(true);
-                    }
-                }
-            });
+        if (!diffs) {
+            setCanOpenNoChangeModal(true);
+            return;
         }
+        const dataToSend = toRuleUpdateFormType(diffs);
+        mutate({ruleId: rule.id, rule: dataToSend}, {
+            onSuccess: (updated) => {
+                setRule(updated);
+                form.setValues(updated);
+                setCanOpenSuccessModal(true);
+            },
+            onError: (error) => {
+                if (isHTTPError(error)) {
+                    const err = error.data as ResponseEntity<null>;
+                    setErrors(err.errors);
+                    setCanOpenErrorModal(true);
+                }
+            }
+        });
     }
 
 
@@ -80,10 +85,14 @@ export function useRuleDetailsPage(){
         ui: {
             isPending,
             canOpenErrorModal,
+            canOpenSuccessModal,
+            canOpenNoChangeModal,
         },
         actions: {
             submitUpdates,
             setCanOpenErrorModal,
+            setCanOpenSuccessModal,
+            setCanOpenNoChangeModal,
         },
         data: {
             rule,

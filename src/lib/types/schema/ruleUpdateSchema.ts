@@ -4,18 +4,18 @@ import {z} from "zod";
  * Schéma du formulaire d'édition d'une règle.
  */
 export const ruleUpdateSchema = z.object({
-    semi_formal: z.string().optional(),
+    semi_formal: z.string().trim().optional(),
     zone: z.enum(["", "apport", "article", "caracteristiques", "client", "gamme", "nomenclature", "operation"])
         .optional(),
     criticality: z
         .enum(["", "critique", "normal"])
         .optional(),
-    author: z.string().optional(),
-    rule_title: z.string().optional(),
-    source_text: z.string().optional(),
-    service: z.string().optional(),
-    sector: z.string().optional(),
-    client: z.array(z.string()).optional(),
+    author: z.string().trim().optional(),
+    rule_title: z.string().trim().optional(),
+    source_text: z.string().trim().optional(),
+    service: z.string().trim().optional(),
+    sector: z.string().trim().optional(),
+    client: z.array(z.string().trim()).optional(),
     finished_product_only: z.boolean().optional(),
     version: z.int().optional(),
     active: z.boolean().optional(),

@@ -14,11 +14,12 @@ export type InputFieldProps = {
     register?: UseFormRegisterReturn;
     error?: string;
     readonly?: boolean;
+    value?: string;
 };
 
 
 
-export default function InputField({id, name, label, placeholder, type = "text", icon, required = false, toggleVisibility = false, register, error, readonly= false}: InputFieldProps) {
+export default function InputField({id, name, label, placeholder, type = "text", icon, required = false, toggleVisibility = false, register, error, readonly = false, value}: InputFieldProps) {
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const inputType = toggleVisibility ? (showPassword ? "text" : "password") : type;
@@ -42,6 +43,7 @@ export default function InputField({id, name, label, placeholder, type = "text",
                     type={inputType}
                     placeholder={placeholder}
                     readOnly={readonly}
+                    defaultValue={register ? undefined : value}
                     className={`${icon ? 'pl-10' : 'pl-3'}  ${toggleVisibility ? "pr-10" : ""} w-full px-4 py-3 border ${error ? "border-error" : "border-input"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-error" : "focus:ring-blue-500"} placeholder:italic bg-card`}
                     required={required}
                     {...register}

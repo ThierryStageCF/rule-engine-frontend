@@ -4,6 +4,8 @@ import type { RuleServerFiltersFormType } from "../types/schema/ruleServerFilter
 import {RuleService} from "../services/rule.service.ts";
 import type {RuleUpdateFormType} from "../types/schema/ruleUpdateSchema.ts";
 import type {Rule} from "../types/models/rule.model.ts";
+import type {RuleCreateFormType} from "../types/schema/ruleCreationSchema.ts";
+import type {RuleCreatedDto} from "../types/entities/ruleCreated.dto.ts";
 
 /**
  * Normalise les filtres : écarte les champs vides (chaînes vides, undefined,
@@ -68,6 +70,23 @@ export function useUpdateRuleMutation() {
         mutationFn: async ({ ruleId, rule }: { ruleId: string; rule: RuleUpdateFormType }): Promise<Rule> => {
             const response = await RuleService.updateRule(ruleId, rule);
             return toRuleModel(response.data);
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: rulesKey.root });
+        },
+    });
+}
+
+
+/**
+ * Hook dérivé de UseMutation permettant la création d'une règle métier.
+ */
+export function useCreateRuleMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async (rule: RuleCreateFormType): Promise<RuleCreatedDto> => {
+            const response = await RuleService.createRule(rule);
+            return response.data;
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: rulesKey.root });

@@ -19,12 +19,12 @@ export function useNavigation() {
     }
     return {
         toHomePage: ()=>  navigateWithState(AppRouterPaths.landingPage),
-        toEvaluationResultPage: (codeArticle: string, state?: object)=> navigateWithState("/evaluation-result" , codeArticle, state),
         toRulePage: ()=> navigateWithState(AppRouterPaths.rulePage),
         toDocumentationPage:  ()=> navigateWithState(AppRouterPaths.documentationPage),
+        toEvaluationResultPage: (codeArticle: string, state?: object)=> navigateWithState("/evaluation-result" , codeArticle, state),
         toRuleDetailsPage: (ruleId: string, rule?: Rule)=> navigateWithState("/rule/details", ruleId, rule),
         toNewRulePage: ()=> navigate(AppRouterPaths.addRulePage),
-        toUpdateRulePage: (ruleId: string, rule?: Rule)=> navigateWithState("/rule/details", ruleId, rule),
+        toUpdateRulePage: (ruleId: string, rule?: Rule)=> navigateWithState("/rule/edit", ruleId, rule),
         back: ()=> navigate(-1),
         reload: ()=> window.location.reload(),
     }

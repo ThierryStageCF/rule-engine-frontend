@@ -18,7 +18,6 @@ export const ruleServerFiltersSchema = z.object({
     text: z.string().trim().optional(),
     created_at: z.string().optional(),
     updated_at: z.string().optional(),
-
 });
 
 export type RuleServerFiltersFormType = z.infer<typeof ruleServerFiltersSchema>;

@@ -5,14 +5,14 @@ import {z} from "zod";
  */
 export const ruleCreateSchema = z.object({
     semi_formal: z.string("La formalisation de la règle est obligatoire"),
-    service: z.string(),
-    author: z.string().min(2, "Le nom de l'auteur de la règle est requis"),
     zone: z.enum(["apport", "article", "caracteristiques", "client", "gamme", "nomenclature", "operation"], "Veuillez choisir une zone"),
-    criticality: z.enum(["critique", "normal"], "Veuillez choisir une criticité"),
-    rule_title: z.string().optional(),
-    source_text: z.string().optional(),
-    sector: z.string().optional(),
-    client: z.array(z.string()).optional(),
+    criticality: z.enum(["normal", "critique"], "Veuillez choisir une criticité"),
+    service: z.string().trim().min(1, "Veuillez renseigner un nom de service valide"),
+    author: z.string().trim().min(2, "Le nom de l'auteur de la règle est requis"),
+    rule_title: z.string().trim().optional(),
+    source_text: z.string().trim().optional(),
+    sector: z.string().trim().optional(),
+    client: z.array(z.string().trim().min(1, "Veuillez rentrer un nom de client valide !")).optional(),
     finished_product_only: z.boolean().optional(),
 });
 

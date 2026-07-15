@@ -63,7 +63,7 @@ export const RuleEditPage = React.lazy(
 export const RuleAddPage = React.lazy(
     async () => (
         {
-            default: (await import ("../pages/RuleDetailsPage")).default
+            default: (await import("../pages/AddRulePage")).default
         }
     )
 )

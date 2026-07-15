@@ -1,10 +1,12 @@
 import type { JSX } from "react"
-import { Link } from "react-router-dom"
+import {useNavigation} from "../router/useNavigation.ts";
 
 /**
  * Page 404 plein écran.
  */
 function NotFoundPage(): JSX.Element {
+
+    const navigate = useNavigation()
     return (
         <div className="flex h-screen w-full flex-col items-center justify-center bg-background px-6 text-center">
             {/* Illustration */}
@@ -40,21 +42,21 @@ function NotFoundPage(): JSX.Element {
 
             {/* Actions */}
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
-                <Link
-                    to="/"
-                    className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
+                <button
+                    onClick={navigate.toHomePage}
+                    className="cursor-pointer inline-flex items-center gap-2.5 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
                 >
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M3 12l9-9 9 9M5 10v10h14V10" />
                     </svg>
                     Retour à l'accueil
-                </Link>
-                <Link
-                    to="/rules"
-                    className="inline-flex items-center rounded-xl border-[1.5px] border-primary/20 px-6 py-3.5 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
+                </button>
+                <button
+                    onClick={navigate.toRulePage}
+                    className="cursor-pointer inline-flex items-center rounded-xl border-[1.5px] border-primary/20 px-6 py-3.5 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
                 >
                     Consulter les règles
-                </Link>
+                </button>
             </div>
         </div>
     )

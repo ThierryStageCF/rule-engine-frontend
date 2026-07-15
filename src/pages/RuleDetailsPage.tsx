@@ -8,6 +8,8 @@ import RuleMetaData from "../components/ruleDetails/RuleMetaData.tsx";
 import RuleFormalization from "../components/ruleDetails/RuleFormalization.tsx";
 import BaseModal from "../layouts/BaseModal.tsx";
 import DataLoader from "../ui/DataLoader.tsx";
+import SuccessModal from "../components/modals/SuccessModal.tsx";
+import ConfirmModal from "../components/modals/ConfirmModal.tsx";
 
 
 /**
@@ -65,6 +67,17 @@ function RuleDetailsPage(): JSX.Element {
                     }
                 </div>
             </BaseModal>
+            <SuccessModal
+                open={ui.canOpenSuccessModal}
+                message="Règle métier mise à jour avec succès !"
+                onClose={() => actions.setCanOpenSuccessModal(false)}
+            />
+            <ConfirmModal
+                open={ui.canOpenNoChangeModal}
+                title="Aucune modification"
+                message="Aucune modification n'a été détectée sur cette règle. Modifiez au moins un champ avant de mettre à jour."
+                onClose={() => actions.setCanOpenNoChangeModal(false)}
+            />
         </div>
     )
 }

@@ -11,7 +11,6 @@ import {
     useUpdateRuleMutation
 } from "../../queries/useRulesQuery.ts";
 import {buildRuleCounts, filterRulesLocally, sortRulesByZone} from "../../builder/ruleList.builder.ts";
-import {useNavigation} from "../../../router/useNavigation.ts";
 import type {Rule} from "../../types/models/rule.model.ts";
 
 /**
@@ -75,23 +74,46 @@ export function useRulesPage() {
         await activeQuery.refetch();
     }
 
-    /* Fonction d'activation, désactivation des règles. */
+
+    /* Activation / désactivation d'une règle : demande de confirmation puis envoi. */
     const {mutate, isPending} = useUpdateRuleMutation();
-    const navigate = useNavigation();
-    async function toggleRuleActive(rule: Rule) {
+    const [ruleToToggle, setRuleToToggle] = useState<Rule | null>(null);
+    const [toggleSuccessMessage, setToggleSuccessMessage] = useState<string | null>(null);
+    const [toggleErrors, setToggleErrors] = useState<ErrorResponse[]>([]);
+    const [canOpenToggleErrorModal, setCanOpenToggleErrorModal] = useState(false);
+
+    /* Étape 1 : l'utilisateur demande la bascule, on ouvre la confirmation. */
+    function requestToggleRuleActive(rule: Rule) {
+        setRuleToToggle(rule);
+    }
+
+    /* Étape 2 : l'utilisateur confirme, on envoie réellement au backend. */
+    function confirmToggleRuleActive() {
+        if (!ruleToToggle) {
+            return;
+        }
+        const target = ruleToToggle;
+        const nextActive = !target.active;
         mutate(
-            {
-                ruleId: rule.id,
-                rule: {
-                    active: !rule.active,
-                },
-            },
+            { ruleId: target.id, rule: { active: nextActive } },
             {
                 onSuccess: () => {
-                    navigate.reload();
+                    setToggleSuccessMessage(`La règle ${target.id} a été ${nextActive ? "activée" : "désactivée"} avec succès.`,);
+                },
+                onError: (error) => {
+                    if (isHTTPError(error)) {
+                        const err = error.data as ResponseEntity<null>;
+                        setToggleErrors(err.errors);
+                        setCanOpenToggleErrorModal(true);
+                    }
                 },
             },
         );
+        setRuleToToggle(null);
+    }
+
+    function cancelToggleRuleActive() {
+        setRuleToToggle(null);
     }
 
     return {
@@ -107,12 +129,16 @@ export function useRulesPage() {
             pageCount,
             total,
             activeServerFilterCount,
-            isPending
+            isPending,
+            ruleToToggle,
+            toggleSuccessMessage,
+            canOpenToggleErrorModal,
         },
         data: {
             rules: pagedRules,
             counts,
             errors,
+            toggleErrors,
         },
         actions: {
             handleSubmitFilter,
@@ -122,7 +148,11 @@ export function useRulesPage() {
             setPageSize,
             setPage,
             refetch: activeQuery.refetch,
-            toggleRuleActive,
+            requestToggleRuleActive,
+            confirmToggleRuleActive,
+            cancelToggleRuleActive,
+            setToggleSuccessMessage,
+            setCanOpenToggleErrorModal,
         },
     };
 }

@@ -1,3 +1,6 @@
+/**
+ * Objet contenant toutes les URLs des pages de l'application
+ */
 export const AppRouterPaths = {
     notFoundPage: "*",
     landingPage: "/",

@@ -6,4 +6,5 @@ export interface RuleCreatedDto {
     zone: DomainZone
     active: boolean
     semi_formal: string
+    created_at: string
 }
