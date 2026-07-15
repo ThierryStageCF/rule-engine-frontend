@@ -11,3 +11,9 @@ export type ErrorResponse = {
     code: string,
     message: string,
 }
+
+export type GlobalError = {
+    status?: number;
+    title: string
+    message: string
+}

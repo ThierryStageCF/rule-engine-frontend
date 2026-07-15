@@ -2,14 +2,15 @@ import {useGlobalError} from "../../lib/hooks/useGlobalError.ts";
 import {globalErrorState} from "../../lib/store/globalErrorStore.ts";
 import Button from "../../ui/Button.tsx";
 import BaseModal from "../../layouts/BaseModal.tsx";
+import {type JSX} from "react";
 
 /**
  * Modal permettant d'afficher des erreurs globales (5XX) et les erreurs réseaux.
  */
-export function GlobalErrorModal(){
+export function GlobalErrorModal(): JSX.Element | null {
 
     const error = useGlobalError();
-    if (!error) return;
+    if (!error) return null;
     return (
         <BaseModal
             open={true}

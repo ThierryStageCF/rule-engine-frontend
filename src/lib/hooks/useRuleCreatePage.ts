@@ -1,25 +1,27 @@
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {type RuleCreateFormType, ruleCreateSchema} from "../../types/schema/ruleCreationSchema.ts";
-import {useCreateRuleMutation} from "../../queries/useRulesQuery.ts";
+import {type RuleCreateFormType, ruleCreateSchema} from "../types/schema/ruleCreationSchema.ts";
+import {useCreateRuleMutation} from "../queries/useRulesQuery.ts";
 import {useState} from "react";
-import type {ErrorResponse, ResponseEntity} from "../../types/entities/response.entity.ts";
-import type {RuleCreatedDto} from "../../types/entities/ruleCreated.dto.ts";
+import type {ResponseEntity} from "../types/entities/response.entity.ts";
+import type {RuleCreatedDto} from "../types/entities/ruleCreated.dto.ts";
 import {isHTTPError} from "ky";
+import {useNotification} from "./useNotification.ts";
+
 
 /**
  * Hook custom chargé de la gestion de la page de création d'une règle métier.
  */
 export function useRuleCreatePage(){
 
-    /* Gestion de la soumission du formulaire de création et des retours serveur. */
+    /* Notifications applicatives (succès / erreur) centralisées. */
+    const {notifySuccess, notifyError} = useNotification();
+
+    /* Gestion de la soumission du formulaire de création. */
     const {mutate, isPending} = useCreateRuleMutation();
-    const [errors, setErrors] = useState<ErrorResponse[]>([]);
-    const [canOpenErrorModal, setCanOpenErrorModal] = useState(false);
 
     /* Résultat de création : présent une fois la règle créée. */
     const [createdRule, setCreatedRule] = useState<RuleCreatedDto | null>(null);
-    const [canOpenSuccessModal, setCanOpenSuccessModal] = useState(false);
 
     /* Gestion du formulaire */
     const form = useForm<RuleCreateFormType>({
@@ -36,17 +38,15 @@ export function useRuleCreatePage(){
     });
 
     function submitCreateRuleForm(data: RuleCreateFormType){
-        console.log(data)
         mutate(data, {
             onSuccess: (created) => {
                 setCreatedRule(created);
-                setCanOpenSuccessModal(true);
+                notifySuccess("Nouvelle règle métier enregistrée avec succès, veuillez la consulter !");
             },
             onError: (error) => {
                 if (isHTTPError(error)) {
                     const err = error.data as ResponseEntity<null>;
-                    setErrors(err.errors);
-                    setCanOpenErrorModal(true);
+                    notifyError(err.errors);
                 }
             }
         });
@@ -56,17 +56,12 @@ export function useRuleCreatePage(){
         form,
         ui: {
             isPending,
-            canOpenErrorModal,
-            canOpenSuccessModal,
             isCreated: createdRule !== null,
         },
         actions: {
             submitCreate: submitCreateRuleForm,
-            setCanOpenErrorModal,
-            setCanOpenSuccessModal,
         },
         data: {
-            errors,
             createdRule,
         }
     }

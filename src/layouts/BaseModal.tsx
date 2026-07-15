@@ -3,6 +3,14 @@ import { X } from "lucide-react";
 
 type ModalSize = "sm" | "md" | "lg" | "xl";
 
+const SIZES: Record<ModalSize, string> = {
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-xl",
+    xl: "max-w-2xl",
+};
+
+
 export type BaseModalProps = {
     open: boolean|null;
     onClose: () => void;
@@ -11,13 +19,7 @@ export type BaseModalProps = {
     subtitle?: string;
     icon?: JSX.Element;
     size?: ModalSize;
-};
-
-const SIZES: Record<ModalSize, string> = {
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-xl",
-    xl: "max-w-2xl",
+    accent?: "success" | "warning" | "danger";
 };
 
 /**
@@ -32,9 +34,15 @@ export default function BaseModal(
         subtitle,
         icon,
         size = "md",
+        accent,
     }: BaseModalProps): JSX.Element | null {
 
-
+    const ACCENTS: Record<NonNullable<BaseModalProps["accent"]>, string> = {
+        success: "bg-success/10 text-success",
+        warning: "bg-warning/10 text-warning",
+        danger: "bg-danger/10 text-danger",
+    };
+    const iconAccentClass = accent ? ACCENTS[accent] : "bg-icon-accent/10 text-icon-accent";
 
     if (!open) return null;
     return (
@@ -57,7 +65,7 @@ export default function BaseModal(
                         <X className="size-4" />
                     </button>
                     {icon && (
-                        <div className="flex size-11 items-center justify-center rounded-xl bg-icon-accent/10 text-icon-accent">
+                        <div className={`flex size-11 items-center justify-center rounded-xl ${iconAccentClass}`}>
                             {icon}
                         </div>
                     )}

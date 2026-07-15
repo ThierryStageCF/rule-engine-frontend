@@ -5,7 +5,6 @@ import {useNavigation} from "../router/useNavigation.ts";
  * Page 404 plein écran.
  */
 function NotFoundPage(): JSX.Element {
-
     const navigate = useNavigation()
     return (
         <div className="flex h-screen w-full flex-col items-center justify-center bg-background px-6 text-center">

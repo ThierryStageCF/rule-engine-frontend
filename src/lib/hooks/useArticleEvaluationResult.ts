@@ -1,14 +1,14 @@
 import {type Location, useLocation} from "react-router-dom";
-import type {DomainZone} from "../../types/models/evaluationResult.model.ts";
+import type {DomainZone} from "../types/models/evaluationResult.model.ts";
 import {useMemo, useState} from "react";
 import type {
     FilterCounts,
     EvaluationResultFilters
-} from "../../types/presentation/evaluation.model.presentation.ts";
-import {DEFAULT_FILTERS, VERDICT_SECTION_ORDER} from "../../utils/constands.ts";
-import {buildResultsByLevel} from "../../builder/evaluationResult.builder.ts";
-import {useEvaluationQuery} from "../../queries/useEvaluationQuery.ts";
-import type {ErrorResponse, ResponseEntity} from "../../types/entities/response.entity.ts";
+} from "../types/presentation/evaluation.model.presentation.ts";
+import {DEFAULT_FILTERS, VERDICT_SECTION_ORDER} from "../utils/constands.ts";
+import {buildResultsByLevel} from "../builder/evaluationResult.builder.ts";
+import {useEvaluationQuery} from "../queries/useEvaluationQuery.ts";
+import type {ErrorResponse, ResponseEntity} from "../types/entities/response.entity.ts";
 import {isHTTPError} from "ky";
 
 /**

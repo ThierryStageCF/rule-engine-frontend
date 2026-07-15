@@ -6,11 +6,13 @@ import {ZoneCriticalityFilters} from "../components/evaluationResults/filters/Zo
 import ResultByVerdict from "../components/evaluationResults/results/ResultByVerdict.tsx";
 import {ResultsHeader} from "../components/evaluationResults/headers/ResultHeader.tsx";
 import {Footer} from "../components/landingPage/Footer.tsx";
-import {useArticleEvaluationResult} from "../lib/hooks/articleEvaluationResults/useArticleEvaluationResult.ts";
+import {useArticleEvaluationResult} from "../lib/hooks/useArticleEvaluationResult.ts";
 import LoadingPage from "./LoadingPage.tsx";
 import {EvaluateModal} from "../components/modals/ArticleEvaluationModal.tsx";
 
-
+/**
+ * @summary Composant fonctionnel qui affiche les résultats de l'évaluation d'un article par rapport aux règles métier.
+ */
 export default function ArticleEvaluationResult() {
     const {ui, data, actions} = useArticleEvaluationResult();
     if(ui.isLoading || ui.isRefetching){

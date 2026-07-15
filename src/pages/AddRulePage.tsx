@@ -2,14 +2,15 @@ import type {JSX} from "react";
 import {Header} from "../components/landingPage/Header.tsx";
 import Button from "../ui/Button.tsx";
 import {Footer} from "../components/landingPage/Footer.tsx";
-import {useRuleCreatePage} from "../lib/hooks/ruleCreatePage/useRuleCreatePage.ts";
+import {useRuleCreatePage} from "../lib/hooks/useRuleCreatePage.ts";
 import RuleCreateHeader from "../components/ruleCreate/RuleCreateHeader.tsx";
 import RuleCreateMetaData from "../components/ruleCreate/RuleCreateMetaData.tsx";
 import RuleCreateFormalization from "../components/ruleCreate/RuleCreateFormalization.tsx";
-import BaseModal from "../layouts/BaseModal.tsx";
-import SuccessModal from "../components/modals/SuccessModal.tsx";
 import DataLoader from "../ui/DataLoader.tsx";
 
+/**
+ * Composant fonctionnel qui affiche le formulaire permettant d'ajouter une nouvelle règle métier.
+ */
 function AddRulePage(): JSX.Element {
 
     const {form, actions, data, ui} = useRuleCreatePage();
@@ -49,22 +50,6 @@ function AddRulePage(): JSX.Element {
             </main>
             <Footer/>
             <DataLoader isLoading={ui.isPending}/>
-            <SuccessModal
-                open={ui.canOpenSuccessModal}
-                message="Nouvelle règle métier enregistrée avec succès, veuillez la consulter !"
-                onClose={() => actions.setCanOpenSuccessModal(false)}
-            />
-            <BaseModal
-                open={ui.canOpenErrorModal}
-                title={"Erreurs"}
-                onClose={()=> actions.setCanOpenErrorModal(false)}
-            >
-                <div className="flex flex-col justify-center items-center py-5 px-4">
-                    {data.errors.map((error, index) => (
-                        <p key={index}>{error.message}</p>
-                    ))}
-                </div>
-            </BaseModal>
         </div>
     )
 }

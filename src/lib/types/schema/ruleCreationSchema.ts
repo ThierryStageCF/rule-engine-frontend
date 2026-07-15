@@ -4,7 +4,7 @@ import {z} from "zod";
  * Schéma du formulaire d'édition d'une règle.
  */
 export const ruleCreateSchema = z.object({
-    semi_formal: z.string("La formalisation de la règle est obligatoire"),
+    semi_formal: z.string().trim().min(1,"La formalisation de la règle est obligatoire"),
     zone: z.enum(["apport", "article", "caracteristiques", "client", "gamme", "nomenclature", "operation"], "Veuillez choisir une zone"),
     criticality: z.enum(["normal", "critique"], "Veuillez choisir une criticité"),
     service: z.string().trim().min(1, "Veuillez renseigner un nom de service valide"),

@@ -1,16 +1,13 @@
-import {type JSX} from "react";
+import {type JSX, useState} from "react";
 import {Sparkles} from "lucide-react";
 import hero_image from "../../assets/hero_panel.png";
-import {useModalState} from "../../lib/hooks/useModalState.ts";
 import Button from "../../ui/Button.tsx";
 import {EvaluateModal} from "../modals/ArticleEvaluationModal.tsx";
 
 
 export function Hero(): JSX.Element{
 
-    const {isModalOpen, setIsModalOpen} = useModalState();
-
-
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     return (
         <section className="w-full max-w-340 flex-1  mx-auto grid grid-cols-1 items-center  px-5 py-8 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:py-0">
             <div className="max-w-xl">
@@ -21,7 +18,7 @@ export function Hero(): JSX.Element{
 
                 <h1 className="mt-8 font-display text-5xl font-semibold tracking-tight leading-14">
                     Vérifiez vos articles<br/>
-                    contre les <em className="italic text-blue-900">règles métier</em>.
+                    par rapport aux <em className="italic text-blue-900">règles métier</em>.
                 </h1>
 
                 <p className="mt-5 mb-5 text-md font-medium sm:text-lg text-muted-foreground  leading-relaxed">

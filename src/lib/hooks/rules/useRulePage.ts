@@ -12,9 +12,11 @@ import {
 } from "../../queries/useRulesQuery.ts";
 import {buildRuleCounts, filterRulesLocally, sortRulesByZone} from "../../builder/ruleList.builder.ts";
 import type {Rule} from "../../types/models/rule.model.ts";
+import {useNotification} from "../useNotification.ts";
+
 
 /**
- * @summary Logique UI de la page de liste des règles : bascule liste complète /
+ * @summary Hook custom assurant la logique UI de la page de liste des règles
  * recherche selon les filtres appliqués, filtres locaux et pagination client.
  */
 export function useRulesPage() {
@@ -76,11 +78,9 @@ export function useRulesPage() {
 
 
     /* Activation / désactivation d'une règle : demande de confirmation puis envoi. */
+    const {notifySuccess, notifyError} = useNotification();
     const {mutate, isPending} = useUpdateRuleMutation();
     const [ruleToToggle, setRuleToToggle] = useState<Rule | null>(null);
-    const [toggleSuccessMessage, setToggleSuccessMessage] = useState<string | null>(null);
-    const [toggleErrors, setToggleErrors] = useState<ErrorResponse[]>([]);
-    const [canOpenToggleErrorModal, setCanOpenToggleErrorModal] = useState(false);
 
     /* Étape 1 : l'utilisateur demande la bascule, on ouvre la confirmation. */
     function requestToggleRuleActive(rule: Rule) {
@@ -92,19 +92,17 @@ export function useRulesPage() {
         if (!ruleToToggle) {
             return;
         }
-        const target = ruleToToggle;
-        const nextActive = !target.active;
+        const nextActive = !ruleToToggle.active;
         mutate(
-            { ruleId: target.id, rule: { active: nextActive } },
+            { ruleId: ruleToToggle.id, rule: { active: nextActive } },
             {
                 onSuccess: () => {
-                    setToggleSuccessMessage(`La règle ${target.id} a été ${nextActive ? "activée" : "désactivée"} avec succès.`,);
+                    notifySuccess(`La règle ${ruleToToggle.id} a été ${nextActive ? "activée" : "désactivée"} avec succès.`);
                 },
                 onError: (error) => {
                     if (isHTTPError(error)) {
                         const err = error.data as ResponseEntity<null>;
-                        setToggleErrors(err.errors);
-                        setCanOpenToggleErrorModal(true);
+                        notifyError(err.errors);
                     }
                 },
             },
@@ -131,14 +129,11 @@ export function useRulesPage() {
             activeServerFilterCount,
             isPending,
             ruleToToggle,
-            toggleSuccessMessage,
-            canOpenToggleErrorModal,
         },
         data: {
             rules: pagedRules,
             counts,
             errors,
-            toggleErrors,
         },
         actions: {
             handleSubmitFilter,
@@ -151,8 +146,6 @@ export function useRulesPage() {
             requestToggleRuleActive,
             confirmToggleRuleActive,
             cancelToggleRuleActive,
-            setToggleSuccessMessage,
-            setCanOpenToggleErrorModal,
         },
     };
 }

@@ -36,6 +36,7 @@ export default function ConfirmModal(
         <BaseModal
             open={open}
             title={title}
+            accent="warning"
             icon={<AlertTriangle className="size-5"/>}
             onClose={onClose}
         >
@@ -55,7 +56,7 @@ export default function ConfirmModal(
                             <Button
                                 type="button"
                                 label={confirmLabel}
-                                variant="primary"
+                                variant="warning"
                                 style="solid"
                                 rounded="xl"
                                 onClick={() => { onConfirm(); onClose(); }}
@@ -65,7 +66,7 @@ export default function ConfirmModal(
                         <Button
                             type="button"
                             label="Compris"
-                            variant="primary"
+                            variant="warning"
                             style="solid"
                             rounded="xl"
                             onClick={onClose}

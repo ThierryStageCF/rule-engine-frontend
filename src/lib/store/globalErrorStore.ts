@@ -1,4 +1,4 @@
-import type {GlobalError} from "../api/queryClient.ts";
+import type {GlobalError} from "../types/entities/response.entity.ts";
 
 
 type ErrorListener = () => void;

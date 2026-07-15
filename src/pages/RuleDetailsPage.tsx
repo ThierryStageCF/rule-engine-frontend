@@ -2,14 +2,11 @@ import type {JSX} from "react";
 import {Header} from "../components/landingPage/Header.tsx";
 import Button from "../ui/Button.tsx";
 import {Footer} from "../components/landingPage/Footer.tsx";
-import {useRuleDetailsPage} from "../lib/hooks/ruleDetailsPage/useRuleDetailsPage.ts";
+import {useRuleDetailsPage} from "../lib/hooks/useRuleDetailsPage.ts";
 import RuleDetailsHeader from "../components/ruleDetails/RuleDetailsHeader.tsx";
 import RuleMetaData from "../components/ruleDetails/RuleMetaData.tsx";
 import RuleFormalization from "../components/ruleDetails/RuleFormalization.tsx";
-import BaseModal from "../layouts/BaseModal.tsx";
 import DataLoader from "../ui/DataLoader.tsx";
-import SuccessModal from "../components/modals/SuccessModal.tsx";
-import ConfirmModal from "../components/modals/ConfirmModal.tsx";
 
 
 /**
@@ -24,62 +21,37 @@ function RuleDetailsPage(): JSX.Element {
             <main className="mx-auto max-w-360.75 min-w-0 flex flex-col flex-1 pb-24 pt-10 px-20">
                 {/* Titre de la page */}
                 <RuleDetailsHeader ruleId={data.rule.id}/>
-               <section>
-                   <form className="mt-5 flex gap-2" onSubmit={form.handleSubmit(actions.submitUpdates)}>
-                       {/* Métadonnées de la règle*/}
-                       <div className="w-1/2  flex flex-col gap-4 border-r-2 px-10">
-                           <RuleMetaData
-                               form={form}
-                               sectionTilte="Métadonnées de la règle"
-                           />
-                       </div>
-                       {/*Formalisation de la règle */}
-                       <div className="w-1/2   px-10 ">
-                           <RuleFormalization
-                               form={form}
-                               sectionTilte="Formalisation"
-                           />
-                           <div className="flex items-end justify-end mt-5">
-                               <Button
-                                   type="submit"
-                                   variant="primary"
-                                   rounded="xl"
-                                   label="Mettre à jour"
-                               />
-                           </div>
-                       </div>
-                   </form>
-               </section>
+                <section>
+                    <form className="mt-5 flex gap-2" onSubmit={form.handleSubmit(actions.submitUpdates)}>
+                        {/* Métadonnées de la règle*/}
+                        <div className="w-1/2  flex flex-col gap-4 border-r-2 px-10">
+                            <RuleMetaData
+                                form={form}
+                                sectionTilte="Métadonnées de la règle"
+                            />
+                        </div>
+                        {/*Formalisation de la règle */}
+                        <div className="w-1/2   px-10 ">
+                            <RuleFormalization
+                                form={form}
+                                sectionTilte="Formalisation"
+                            />
+                            <div className="flex items-end justify-end mt-5">
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    rounded="xl"
+                                    label="Mettre à jour"
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </section>
             </main>
             <Footer/>
             <DataLoader isLoading={ui.isPending}/>
-            <BaseModal
-                open={ui.canOpenErrorModal}
-                title={"Erreurs"}
-                onClose={()=> actions.setCanOpenErrorModal(false)}
-            >
-                <div className="flex justify-center items-center py-5 px-4">
-                    {data.errors.map((error, index) => (
-                        <p key={index}>
-                            {error.message}
-                        </p>
-                    ))
-                    }
-                </div>
-            </BaseModal>
-            <SuccessModal
-                open={ui.canOpenSuccessModal}
-                message="Règle métier mise à jour avec succès !"
-                onClose={() => actions.setCanOpenSuccessModal(false)}
-            />
-            <ConfirmModal
-                open={ui.canOpenNoChangeModal}
-                title="Aucune modification"
-                message="Aucune modification n'a été détectée sur cette règle. Modifiez au moins un champ avant de mettre à jour."
-                onClose={() => actions.setCanOpenNoChangeModal(false)}
-            />
         </div>
-    )
+    );
 }
 
 export default RuleDetailsPage;
