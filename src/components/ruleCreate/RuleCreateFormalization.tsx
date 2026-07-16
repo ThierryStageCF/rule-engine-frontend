@@ -1,6 +1,8 @@
 import TextAreaField from "../../ui/TextAreaField.tsx";
-import type {UseFormReturn} from "react-hook-form";
-import type {RuleCreateFormType} from "../../lib/types/schema/ruleCreationSchema.ts";
+import CodeEditorField from "../../ui/CodeEditorField.tsx";
+import { Controller, type UseFormReturn } from "react-hook-form";
+import type { RuleCreateFormType } from "../../lib/types/schema/ruleCreationSchema.ts";
+import {useKeywordsQuery} from "../../lib/queries/useDslKeywordsQuery.ts";
 
 export type RuleCreateFormalizationProps = {
     form: UseFormReturn<RuleCreateFormType>,
@@ -9,6 +11,10 @@ export type RuleCreateFormalizationProps = {
 }
 
 export default function RuleCreateFormalization({form, sectionTilte, locked}: RuleCreateFormalizationProps){
+
+    /* Mots-clés du DSL pour la coloration syntaxique (récupérés une fois, mis en cache). */
+    const { data: keywords } = useKeywordsQuery();
+
     return (
         <>
             <h2 className="text-xl text-primary font-semibold mb-4">
@@ -28,14 +34,22 @@ export default function RuleCreateFormalization({form, sectionTilte, locked}: Ru
             </div>
 
             <div className="mt-10">
-                <TextAreaField
-                    id="semi-formal"
-                    label="Semi-formel"
-                    register={form.register("semi_formal")}
-                    error={form.formState.errors.semi_formal?.message}
-                    placeholder="Ex. SI famille_article CONTIENT 'OR' ALORS poids_article > 0"
-                    rows={7}
-                    readonly={locked}
+                <Controller
+                    name="semi_formal"
+                    control={form.control}
+                    render={({ field }) => (
+                        <CodeEditorField
+                            id="semi-formal"
+                            label="Semi-formel"
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
+                            error={form.formState.errors.semi_formal?.message}
+                            placeholder="Ex. SI famille_article CONTIENT 'OR' ALORS poids_article > 0"
+                            readonly={locked}
+                            keywords={keywords ?? []}
+                        />
+                    )}
                 />
             </div>
         </>

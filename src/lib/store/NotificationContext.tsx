@@ -3,7 +3,7 @@ import type {ErrorResponse} from "../types/entities/response.entity.ts";
 import { NotificationContext } from "../hooks/useNotification.ts";
 
 /** Durée d'affichage d'un succès ou d'un avertissement avant fermeture automatique (en millisecondes). */
-const AUTO_DISMISS_MS = 10_000;
+const AUTO_DISMISS_MS = 5_000;
 
 
 /**
